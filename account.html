@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Julian Lorenzo Depaepe — Account</title>
+  <meta name="description" content="Create account and login with email verification." />
+  <meta name="theme-color" content="#0b0d10" />
+  <style>
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff;--ok:#46d27d;--warn:#ffc54d;--err:#ff6b6b}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:.75rem;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+    .brand svg{width:34px;height:34px}
+    .nav-links{display:flex;gap:.5rem;align-items:center}
+    .link,.btn-link{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem;border:1px solid transparent;background:transparent;cursor:pointer;font:inherit}
+    .link:hover,.btn-link:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .active{color:var(--text);background:linear-gradient(135deg, rgba(79,140,255,.2), rgba(138,92,255,.2))}
+    .hero{padding:4.5rem 0 2.25rem}
+    h1{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0}
+    .subtitle{color:var(--muted);margin:0 0 1rem}
+    .cta{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.7rem 1rem;border-radius:.7rem;text-decoration:none;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;border-color:rgba(255,255,255,.15)}
+    .btn.small{padding:.45rem .75rem;font-size:.9rem}
+    .section{padding:2.25rem 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;list-style:none;padding:0;margin:0}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1rem}
+    .status{padding:.75rem 1rem;border-radius:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
+    .ok{border-color:rgba(70,210,125,.35);background:rgba(70,210,125,.08)}
+    .warn{border-color:rgba(255,197,77,.35);background:rgba(255,197,77,.08)}
+    .err{border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08)}
+    footer{border-top:1px solid rgba(255,255,255,.06);background:radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent)}
+    footer .container{padding:1.5rem 1rem}
+    .muted{color:var(--muted)}
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:1rem}
+    .modal.show{display:flex}
+    .modal-card{width:min(560px,95vw);background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:1rem;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1rem .5rem 1rem}
+    .modal-body{padding:0 1rem 1rem 1rem}
+    .modal h3{margin:.25rem 0}
+    .x{background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:20px}
+    .field{display:flex;flex-direction:column;margin:.6rem 0}
+    .field label{font-size:.9rem;color:var(--muted);margin:0 0 .25rem}
+    .field input{border:1px solid rgba(255,255,255,.12);background:#0f131a;color:var(--text);padding:.6rem .7rem;border-radius:.6rem;outline:none}
+    .row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+    .right{margin-left:auto}
+    .center{text-align:center}
+    .note{font-size:.9rem;color:var(--muted)}
+    .hidden{display:none}
+    .copy{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:.85rem;word-break:break-all}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="Home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs>
+          <rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/>
+          <path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/>
+        </svg>
+        <span>JLD</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/" class="link active" aria-current="page">Home</a>
+        <button class="btn-link" id="openSignUp">Create account</button>
+        <button class="btn-link" id="openLogin">Log in</button>
+        <button class="btn-link" id="openSetup" title="Paste Firebase config">Setup</button>
+        <span id="userBadge" class="muted"></span>
+        <button id="logoutBtn" class="btn-link hidden">Log out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h1>Julian Lorenzo Depaepe</h1>
+      <p class="subtitle">Create an account or log in below. Email confirmation is required.</p>
+      <div id="appStatus" class="status warn container">Not configured yet. Click <b>Setup</b> to paste your Firebase config, then enable <b>Email/Password</b> in Firebase Authentication.</div>
+    </section>
+
+    <section class="container section">
+      <ul class="grid">
+        <li class="card">
+          <h2>How this works</h2>
+          <ol>
+            <li>Click <b>Setup</b> and paste your Firebase config (no code editing needed).</li>
+            <li>Click <b>Create account</b>, fill <i>username, email, password</i>.</li>
+            <li>Check your inbox and click the verification link.</li>
+            <li>Return here and click <b>Refresh status</b> to finalize.</li>
+          </ol>
+          <p class="note">Make sure your Firebase project has <b>Email/Password</b> sign-in method enabled and your site domain is in <i>Authorized domains</i>.</p>
+        </li>
+        <li class="card">
+          <h2>Account status</h2>
+          <div id="authInfo" class="note">No user signed in.</div>
+          <div class="row">
+            <button id="refreshStatus" class="btn ghost">Refresh status</button>
+            <button id="resendVerification" class="btn ghost hidden">Resend verification email</button>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <small>© 2025 Julian Lorenzo Depaepe · Built with HTML5</small>
+    </div>
+  </footer>
+
+  <!-- Sign Up Modal -->
+  <div class="modal" id="signUpModal" role="dialog" aria-modal="true" aria-labelledby="signUpTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="signUpTitle">Create account</h3>
+        <button class="x" data-close="signUpModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field"><label>Username</label><input id="su_username" type="text" autocomplete="username" placeholder="Your display name" /></div>
+        <div class="field"><label>Email</label><input id="su_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
+        <div class="field"><label>Password</label><input id="su_password" type="password" autocomplete="new-password" placeholder="••••••••" /></div>
+        <div id="su_msg" class="note"></div>
+        <div class="row">
+          <button id="doSignUp" class="btn">Create account</button>
+          <button class="btn ghost right" data-close="signUpModal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="loginTitle">Log in</h3>
+        <button class="x" data-close="loginModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field"><label>Email</label><input id="li_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
+        <div class="field"><label>Password</label><input id="li_password" type="password" autocomplete="current-password" placeholder="••••••••" /></div>
+        <div id="li_msg" class="note"></div>
+        <div class="row">
+          <button id="doLogin" class="btn">Log in</button>
+          <button class="btn ghost right" data-close="loginModal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Setup Modal -->
+  <div class="modal" id="setupModal" role="dialog" aria-modal="true" aria-labelledby="setupTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="setupTitle">Setup Firebase (paste config)</h3>
+        <button class="x" data-close="setupModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="note">From Firebase Console → Project settings → <b>General</b> → Your apps → Web app (</>), copy the <i>firebaseConfig</i> object and paste it below.</p>
+        <div class="field">
+          <label>firebaseConfig (JSON)</label>
+          <textarea id="cfg_text" rows="8" style="width:100%;border:1px solid rgba(255,255,255,.12);background:#0f131a;color:var(--text);padding:.6rem;border-radius:.6rem" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","appId":"..."}'></textarea>
+        </div>
+        <div id="cfg_msg" class="note"></div>
+        <div class="row">
+          <button id="saveConfig" class="btn">Save config</button>
+          <button id="clearConfig" class="btn ghost">Clear</button>
+          <button class="btn ghost right" data-close="setupModal">Close</button>
+        </div>
+        <details style="margin-top:.75rem">
+          <summary>What else do I need?</summary>
+          <ul class="note">
+            <li>Enable <b>Email/Password</b> provider (Authentication → Sign-in method).</li>
+            <li>Add your domain to <b>Authorized domains</b> (Authentication → Settings).</li>
+            <li>Optional: customize the email template and action URL.</li>
+          </ul>
+          <p class="note">If you use strict CSP headers, allow Firebase: <span class="copy">script-src 'self' https://www.gstatic.com https://www.googleapis.com 'unsafe-inline'</span></p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // --- Modal helpers ---
+    const $ = (s, r=document)=>r.querySelector(s);
+    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+    const modals = { signUpModal: $('#signUpModal'), loginModal: $('#loginModal'), setupModal: $('#setupModal') };
+    const open = id => modals[id]?.classList.add('show');
+    const close = id => modals[id]?.classList.remove('show');
+    $$('#openSignUp,#openLogin,#openSetup').forEach(btn=>{
+      btn?.addEventListener('click', ()=> open(btn.id === 'openSignUp' ? 'signUpModal' : (btn.id==='openLogin'?'loginModal':'setupModal')));
+    });
+    $$('[data-close]').forEach(btn=>btn.addEventListener('click', ()=> close(btn.getAttribute('data-close'))));
+    Object.values(modals).forEach(m => m?.addEventListener('click', e => { if(e.target===m) m.classList.remove('show'); }));
+
+    // --- Firebase dynamic loader ---
+    const CDN = 'https://www.gstatic.com/firebasejs/10.12.0';
+    async function loadFirebase() {
+      const [{ initializeApp }, { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged,
+              createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendEmailVerification, updateProfile, reload }]
+        = await Promise.all([
+          import(CDN + '/firebase-app.js'),
+          import(CDN + '/firebase-auth.js'),
+        ]);
+      return { initializeApp, getAuth, setPersistence, browserLocalPersistence,
+               onAuthStateChanged, createUserWithEmailAndPassword,
+               signInWithEmailAndPassword, signOut, sendEmailVerification, updateProfile, reload };
+    }
+
+    const appStatus = $('#appStatus');
+    const authInfo = $('#authInfo');
+    const userBadge = $('#userBadge');
+    const logoutBtn = $('#logoutBtn');
+    const refreshBtn = $('#refreshStatus');
+    const resendBtn = $('#resendVerification');
+
+    const su_username = $('#su_username');
+    const su_email = $('#su_email');
+    const su_password = $('#su_password');
+    const su_msg = $('#su_msg');
+
+    const li_email = $('#li_email');
+    const li_password = $('#li_password');
+    const li_msg = $('#li_msg');
+
+    const cfg_text = $('#cfg_text');
+    const cfg_msg = $('#cfg_msg');
+
+    const CFG_KEY = 'firebase_config_v1';
+
+    function getConfig() {
+      try { const raw = localStorage.getItem(CFG_KEY); return raw ? JSON.parse(raw) : null; }
+      catch { return null; }
+    }
+
+    function setStatus(msg, cls='warn') {
+      appStatus.className = 'status ' + cls + ' container';
+      appStatus.innerHTML = msg;
+    }
+
+    function setAuthInfo(msg) { authInfo.textContent = msg; }
+
+    function showUser(u) {
+      if (!u) {
+        userBadge.textContent = '';
+        logoutBtn.classList.add('hidden');
+        setAuthInfo('No user signed in.');
+        return;
+      }
+      const v = u.emailVerified;
+      userBadge.textContent = v ? `Signed in as ${u.displayName || u.email}` : `Signed in (unverified) — ${u.email}`;
+      logoutBtn.classList.remove('hidden');
+      setAuthInfo(v ? 'Email verified.' : 'Email not verified yet.');
+      resendBtn.classList.toggle('hidden', v);
+    }
+
+    // Save/clear config
+    $('#saveConfig')?.addEventListener('click', ()=> {
+      try {
+        const cfg = JSON.parse(cfg_text.value.trim());
+        if (!cfg.apiKey || !cfg.authDomain) throw new Error('Missing required fields');
+        localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+        cfg_msg.textContent = 'Saved. Reloading auth...';
+        location.reload();
+      } catch (e) {
+        cfg_msg.textContent = 'Invalid JSON: ' + e.message;
+      }
+    });
+    $('#clearConfig')?.addEventListener('click', ()=> {
+      localStorage.removeItem(CFG_KEY);
+      cfg_text.value='';
+      cfg_msg.textContent='Cleared. Reload the page.';
+    });
+
+    let auth, reloadFn;
+    (async () => {
+      const cfg = getConfig();
+      if (!cfg) {
+        setStatus('Not configured yet. Click <b>Setup</b> to paste your Firebase config, then enable <b>Email/Password</b> in Firebase Authentication.');
+        return;
+      }
+      try {
+        const fb = await loadFirebase();
+        const app = fb.initializeApp(cfg);
+        auth = fb.getAuth(app);
+        reloadFn = fb.reload;
+        await fb.setPersistence(auth, fb.browserLocalPersistence);
+        setStatus('Connected. You can create an account or log in.', 'ok');
+
+        fb.onAuthStateChanged(auth, (user) => { showUser(user); });
+
+        // Sign up
+        $('#doSignUp')?.addEventListener('click', async () => {
+          su_msg.textContent='';
+          const name = su_username.value.trim();
+          const email = su_email.value.trim();
+          const pass = su_password.value;
+          if (!name || !email || !pass) { su_msg.textContent='Please fill all fields.'; return; }
+          try {
+            const { user } = await fb.createUserWithEmailAndPassword(auth, email, pass);
+            await fb.updateProfile(user, { displayName: name });
+            await fb.sendEmailVerification(user);
+            su_msg.textContent = 'Account created. Verification email sent — check your inbox.';
+          } catch (e) {
+            su_msg.textContent = e.message;
+          }
+        });
+
+        // Log in
+        $('#doLogin')?.addEventListener('click', async () => {
+          li_msg.textContent='';
+          try {
+            await fb.signInWithEmailAndPassword(auth, li_email.value.trim(), li_password.value);
+            close('loginModal');
+          } catch (e) {
+            li_msg.textContent = e.message;
+          }
+        });
+
+        // Log out
+        logoutBtn?.addEventListener('click', async () => {
+          try { await fb.signOut(auth); } catch {}
+        });
+
+        // Resend verification
+        resendBtn?.addEventListener('click', async () => {
+          if (auth.currentUser) {
+            try { await fb.sendEmailVerification(auth.currentUser); setAuthInfo('Verification email re-sent.'); }
+            catch (e) { setAuthInfo('Error: ' + e.message); }
+          }
+        });
+
+        // Refresh status
+        refreshBtn?.addEventListener('click', async () => {
+          if (auth.currentUser) {
+            try { await reloadFn(auth.currentUser); }
+            catch {}
+            showUser(auth.currentUser);
+          } else {
+            setAuthInfo('No user signed in.');
+          }
+        });
+
+      } catch (e) {
+        setStatus('Config present but Firebase failed to load: ' + e.message, 'err');
+      }
+    })();
+  </script>
+</body>
+</html>
