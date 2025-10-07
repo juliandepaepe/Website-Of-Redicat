@@ -763,3 +763,533 @@ Use this to replace the current `index.html`. It fixes structural issues (no Mar
 </body>
 </html>
 ```
+
+
+---
+
+# Separate HTML pages (drop these into your repo root)
+Below are **three standalone pages** with shared look & feel and footer legal/cookie policy on each page. Replace your current single `index.html` with these **three files**:
+- `index.html` (home — includes About)
+- `example1.html` (empty placeholder)
+- `example2.html` (empty placeholder)
+
+> Note: All pages are self-contained (inline CSS/JS), so you don’t need extra assets.
+
+## index.html
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Julian Lorenzo Depaepe — Redicat</title>
+  <meta name="description" content="Personal website of Julian Lorenzo Depaepe — Redicat." />
+  <meta name="theme-color" content="#0b0d10" />
+  <style>
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    img{max-width:100%;display:block}
+    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+    .brand svg{width:34px;height:34px}
+    .nav-links{display:flex;gap:.5rem}
+    .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem}
+    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .toggle{display:none}
+    .hero{padding:6rem 0 3rem}
+    h1{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0}
+    .subtitle{color:var(--muted);margin:0 0 1rem}
+    .cta{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.7rem 1rem;border-radius:.7rem;text-decoration:none;font-weight:600}
+    .btn.ghost{background:transparent;border-color:rgba(255,255,255,.15)}
+    .section{padding:3rem 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1rem}
+    footer{border-top:1px solid rgba(255,255,255,.06);background:radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent)}
+    footer .container{padding:2rem 1rem}
+    details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:1rem;border-radius:1rem;margin:.75rem 0}
+    .cookie-banner{position:fixed;left:0;right:0;bottom:0;background:rgba(11,13,16,.95);border-top:1px solid rgba(255,255,255,.08);transform:translateY(100%);transition:transform .3s ease}
+    .cookie-banner.show{transform:translateY(0)}
+    .banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem}
+    .banner-actions{display:flex;gap:.5rem}
+    .btn.small{padding:.45rem .75rem;font-size:.9rem}
+    @media (max-width:720px){
+      .toggle{display:inline-flex;background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text);padding:.4rem .7rem;border-radius:.6rem}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:64px;right:1rem;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:.5rem;width:min(260px,90vw)}
+      .nav-links.show{display:flex}
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/index.html" aria-label="Redicat home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/><path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/></svg>
+        <span>Redicat</span>
+      </a>
+      <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav id="nav" class="nav-links" aria-label="Primary">
+        <a href="/index.html" aria-current="page">Home</a>
+        <a href="/example1.html">Example 1</a>
+        <a href="/example2.html">Example 2</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="container hero">
+      <h1>Julian Lorenzo Depaepe</h1>
+      <p class="subtitle">Builder · Problem‑solver · Curious mind</p>
+      <div class="cta">
+        <a class="btn" href="#about">About me</a>
+        <a class="btn ghost" href="#contact">Contact</a>
+      </div>
+    </section>
+
+    <section id="about" class="container section">
+      <div class="grid">
+        <div class="card">
+          <h2>About me</h2>
+          <p>I build modern, reliable web experiences. This site is a clean HTML5 multi‑page website ready for Cloudflare Pages.</p>
+        </div>
+        <div class="card">
+          <h2>Highlights</h2>
+          <ul>
+            <li>Semantic HTML & accessible nav</li>
+            <li>Responsive, mobile‑first layout</li>
+            <li>Security headers via <code>_headers</code> (optional)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container section">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:depaepejulian@gmail.com">depaepejulian@gmail.com</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <section id="legal">
+        <h3>Legal & Cookie Policy</h3>
+        <p><strong>Cookie summary:</strong> This site uses only strictly necessary cookies (none by default; only the consent banner stores a value).</p>
+        <details>
+          <summary>Read full cookie policy</summary>
+          <p>No analytics or marketing cookies are set. If optional features are added later, we will request consent first.</p>
+        </details>
+        <details>
+          <summary>Legal notice</summary>
+          <p>All content © <span id="year"></span> Julian Lorenzo Depaepe. All rights reserved.</p>
+        </details>
+      </section>
+      <small>© <span id="year2"></span> Redicat · Served via Cloudflare Pages</small>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="container banner-inner">
+      <p>We use only essential cookies to make this site work. <button class="btn small" id="show-policy" style="background:transparent;border:1px solid rgba(255,255,255,.2)">Learn more</button></p>
+      <div class="banner-actions">
+        <button id="accept-cookies" class="btn small">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile nav toggle
+    const t=document.querySelector('.toggle');
+    const n=document.getElementById('nav');
+    if(t&&n){t.addEventListener('click',()=>{const e=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!e));n.classList.toggle('show');});}
+    // Year stamps
+    const y=String(new Date().getFullYear());
+    const y1=document.getElementById('year'); const y2=document.getElementById('year2');
+    if(y1) y1.textContent=y; if(y2) y2.textContent=y;
+    // Cookie banner
+    const CONSENT_KEY='cookie_consent_v1';
+    const banner=document.getElementById('cookie-banner');
+    const acceptBtn=document.getElementById('accept-cookies');
+    const showPolicyBtn=document.getElementById('show-policy');
+    function showBanner(){banner?.classList.add('show');}
+    function hideBanner(){banner?.classList.remove('show');}
+    if(!localStorage.getItem(CONSENT_KEY)) setTimeout(showBanner, 500);
+    acceptBtn?.addEventListener('click',()=>{localStorage.setItem(CONSENT_KEY,'accepted');hideBanner();});
+    showPolicyBtn?.addEventListener('click',()=>{const details=document.querySelector('#legal details'); if(details && !details.open) details.open=true; window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});});
+  </script>
+</body>
+</html>
+```
+
+## example1.html (blank template with same header/footer)
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Example 1 — Redicat</title>
+  <meta name="theme-color" content="#0b0d10" />
+  <style>
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+    .brand svg{width:34px;height:34px}
+    .nav-links{display:flex;gap:.5rem}
+    .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem}
+    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .toggle{display:none}
+    main{padding:3rem 0}
+    footer{border-top:1px solid rgba(255,255,255,.06);background:radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent)}
+    footer .container{padding:2rem 1rem}
+    details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:1rem;border-radius:1rem;margin:.75rem 0}
+    .cookie-banner{position:fixed;left:0;right:0;bottom:0;background:rgba(11,13,16,.95);border-top:1px solid rgba(255,255,255,.08);transform:translateY(100%);transition:transform .3s ease}
+    .cookie-banner.show{transform:translateY(0)}
+    .banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem}
+    .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.5rem .8rem;border-radius:.6rem;text-decoration:none;font-weight:600}
+    .btn.small{padding:.45rem .75rem;font-size:.9rem}
+    @media (max-width:720px){
+      .toggle{display:inline-flex;background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text);padding:.4rem .7rem;border-radius:.6rem}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:64px;right:1rem;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:.5rem;width:min(260px,90vw)}
+      .nav-links.show{display:flex}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/index.html" aria-label="Redicat home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/><path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/></svg>
+        <span>Redicat</span>
+      </a>
+      <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav id="nav" class="nav-links" aria-label="Primary">
+        <a href="/index.html">Home</a>
+        <a href="/example1.html" aria-current="page">Example 1</a>
+        <a href="/example2.html">Example 2</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Example 1</h1>
+    <p>This page is intentionally blank for future content.</p>
+  </main>
+
+  <footer>
+    <div class="container">
+      <section id="legal">
+        <h3>Legal & Cookie Policy</h3>
+        <p><strong>Cookie summary:</strong> This site uses only strictly necessary cookies (none by default; only the consent banner stores a value).</p>
+        <details>
+          <summary>Read full cookie policy</summary>
+          <p>No analytics or marketing cookies are set. If optional features are added later, we will request consent first.</p>
+        </details>
+        <details>
+          <summary>Legal notice</summary>
+          <p>All content © <span id="year"></span> Julian Lorenzo Depaepe. All rights reserved.</p>
+        </details>
+      </section>
+      <small>© <span id="year2"></span> Redicat · Served via Cloudflare Pages</small>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="container banner-inner">
+      <p>We use only essential cookies to make this site work. <button class="btn small" id="show-policy" style="background:transparent;border:1px solid rgba(255,255,255,.2)">Learn more</button></p>
+      <div class="banner-actions">
+        <button id="accept-cookies" class="btn small">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const t=document.querySelector('.toggle'); const n=document.getElementById('nav');
+    if(t&&n){t.addEventListener('click',()=>{const e=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!e));n.classList.toggle('show');});}
+    const y=String(new Date().getFullYear());
+    const y1=document.getElementById('year'); const y2=document.getElementById('year2'); if(y1) y1.textContent=y; if(y2) y2.textContent=y;
+    const CONSENT_KEY='cookie_consent_v1'; const banner=document.getElementById('cookie-banner'); const acceptBtn=document.getElementById('accept-cookies'); const showPolicyBtn=document.getElementById('show-policy');
+    function showBanner(){banner?.classList.add('show');} function hideBanner(){banner?.classList.remove('show');}
+    if(!localStorage.getItem(CONSENT_KEY)) setTimeout(showBanner,500);
+    acceptBtn?.addEventListener('click',()=>{localStorage.setItem(CONSENT_KEY,'accepted');hideBanner();});
+    showPolicyBtn?.addEventListener('click',()=>{const details=document.querySelector('#legal details'); if(details && !details.open) details.open=true; window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});});
+  </script>
+</body>
+</html>
+```
+
+## example2.html (blank template with same header/footer)
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Example 2 — Redicat</title>
+  <meta name="theme-color" content="#0b0d10" />
+  <style>
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+    .brand svg{width:34px;height:34px}
+    .nav-links{display:flex;gap:.5rem}
+    .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem}
+    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .toggle{display:none}
+    main{padding:3rem 0}
+    footer{border-top:1px solid rgba(255,255,255,.06);background:radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent)}
+    footer .container{padding:2rem 1rem}
+    details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:1rem;border-radius:1rem;margin:.75rem 0}
+    .cookie-banner{position:fixed;left:0;right:0;bottom:0;background:rgba(11,13,16,.95);border-top:1px solid rgba(255,255,255,.08);transform:translateY(100%);transition:transform .3s ease}
+    .cookie-banner.show{transform:translateY(0)}
+    .banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem}
+    .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.5rem .8rem;border-radius:.6rem;text-decoration:none;font-weight:600}
+    .btn.small{padding:.45rem .75rem;font-size:.9rem}
+    @media (max-width:720px){
+      .toggle{display:inline-flex;background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text);padding:.4rem .7rem;border-radius:.6rem}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:64px;right:1rem;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:.5rem;width:min(260px,90vw)}
+      .nav-links.show{display:flex}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/index.html" aria-label="Redicat home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/><path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/></svg>
+        <span>Redicat</span>
+      </a>
+      <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav id="nav" class="nav-links" aria-label="Primary">
+        <a href="/index.html">Home</a>
+        <a href="/example1.html">Example 1</a>
+        <a href="/example2.html" aria-current="page">Example 2</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Example 2</h1>
+    <p>This page is intentionally blank for future content.</p>
+  </main>
+
+  <footer>
+    <div class="container">
+      <section id="legal">
+        <h3>Legal & Cookie Policy</h3>
+        <p><strong>Cookie summary:</strong> This site uses only strictly necessary cookies (none by default; only the consent banner stores a value).</p>
+        <details>
+          <summary>Read full cookie policy</summary>
+          <p>No analytics or marketing cookies are set. If optional features are added later, we will request consent first.</p>
+        </details>
+        <details>
+          <summary>Legal notice</summary>
+          <p>All content © <span id="year"></span> Julian Lorenzo Depaepe. All rights reserved.</p>
+        </details>
+      </section>
+      <small>© <span id="year2"></span> Redicat · Served via Cloudflare Pages</small>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="container banner-inner">
+      <p>We use only essential cookies to make this site work. <button class="btn small" id="show-policy" style="background:transparent;border:1px solid rgba(255,255,255,.2)">Learn more</button></p>
+      <div class="banner-actions">
+        <button id="accept-cookies" class="btn small">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const t=document.querySelector('.toggle'); const n=document.getElementById('nav');
+    if(t&&n){t.addEventListener('click',()=>{const e=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!e));n.classList.toggle('show');});}
+    const y=String(new Date().getFullYear());
+    const y1=document.getElementById('year'); const y2=document.getElementById('year2'); if(y1) y1.textContent=y; if(y2) y2.textContent=y;
+    const CONSENT_KEY='cookie_consent_v1'; const banner=document.getElementById('cookie-banner'); const acceptBtn=document.getElementById('accept-cookies'); const showPolicyBtn=document.getElementById('show-policy');
+    function showBanner(){banner?.classList.add('show');} function hideBanner(){banner?.classList.remove('show');}
+    if(!localStorage.getItem(CONSENT_KEY)) setTimeout(showBanner,500);
+    acceptBtn?.addEventListener('click',()=>{localStorage.setItem(CONSENT_KEY,'accepted');hideBanner();});
+    showPolicyBtn?.addEventListener('click',()=>{const details=document.querySelector('#legal details'); if(details && !details.open) details.open=true; window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});});
+  </script>
+</body>
+</html>
+```
+
+
+---
+
+# index.html — single page (Example 1/2 are placeholders that do nothing)
+
+Paste this over your current `index.html`. It keeps a clean, professional layout; **Home** navigates to `index.html`; **Example 1** and **Example 2** are non-functional buttons styled like links (no navigation, no click behavior).
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Julian Lorenzo Depaepe — Redicat</title>
+  <meta name="description" content="Personal website of Julian Lorenzo Depaepe — Redicat." />
+  <meta name="theme-color" content="#0b0d10" />
+  <style>
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    img{max-width:100%;display:block}
+    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+    .brand svg{width:34px;height:34px}
+    .nav-links{display:flex;gap:.5rem}
+    .nav-item{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem;background:transparent;border:0;cursor:pointer;font:inherit}
+    .nav-item:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .nav-item.active{color:var(--text);background:linear-gradient(135deg, rgba(79,140,255,.2), rgba(138,92,255,.2))}
+    .toggle{display:none}
+
+    .hero{padding:6rem 0 3rem}
+    h1{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0}
+    .subtitle{color:var(--muted);margin:0 0 1rem}
+    .cta{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.7rem 1rem;border-radius:.7rem;text-decoration:none;font-weight:600}
+    .btn.ghost{background:transparent;border-color:rgba(255,255,255,.15)}
+
+    .section{padding:3rem 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1rem}
+
+    footer{border-top:1px solid rgba(255,255,255,.06);background:radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent)}
+    footer .container{padding:2rem 1rem}
+    details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:1rem;border-radius:1rem;margin:.75rem 0}
+
+    .cookie-banner{position:fixed;left:0;right:0;bottom:0;background:rgba(11,13,16,.95);border-top:1px solid rgba(255,255,255,.08);transform:translateY(100%);transition:transform .3s ease}
+    .cookie-banner.show{transform:translateY(0)}
+    .banner-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 1rem}
+    .banner-actions{display:flex;gap:.5rem}
+    .btn.small{padding:.45rem .75rem;font-size:.9rem}
+
+    @media (max-width:720px){
+      .toggle{display:inline-flex;background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text);padding:.4rem .7rem;border-radius:.6rem}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:64px;right:1rem;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:.5rem;width:min(260px,90vw)}
+      .nav-links.show{display:flex}
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/index.html" aria-label="Redicat home">
+        <!-- Inline placeholder logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/><path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/></svg>
+        <span>Redicat</span>
+      </a>
+      <button class="toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav id="nav" class="nav-links" aria-label="Primary">
+        <a class="nav-item active" href="/index.html" aria-current="page">Home</a>
+        <button type="button" class="nav-item" aria-disabled="true" title="Placeholder — not active">Example 1</button>
+        <button type="button" class="nav-item" aria-disabled="true" title="Placeholder — not active">Example 2</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="container hero">
+      <h1>Julian Lorenzo Depaepe</h1>
+      <p class="subtitle">Builder · Problem‑solver · Curious mind</p>
+      <div class="cta">
+        <a class="btn" href="#about">About me</a>
+        <a class="btn ghost" href="#contact">Contact</a>
+      </div>
+    </section>
+
+    <section id="about" class="container section">
+      <div class="grid">
+        <div class="card">
+          <h2>About me</h2>
+          <p>I build modern, reliable web experiences. This is a clean single‑page site, ready for Cloudflare Pages and future expansion.</p>
+        </div>
+        <div class="card">
+          <h2>Highlights</h2>
+          <ul>
+            <li>Semantic HTML & accessible nav</li>
+            <li>Responsive, mobile‑first layout</li>
+            <li>Security headers via <code>_headers</code> (optional)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container section">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:depaepejulian@gmail.com">depaepejulian@gmail.com</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <section id="legal">
+        <h3>Legal & Cookie Policy</h3>
+        <p><strong>Cookie summary:</strong> This site uses only strictly necessary cookies (none by default; only the consent banner stores a value).</p>
+        <details>
+          <summary>Read full cookie policy</summary>
+          <p>No analytics or marketing cookies are set. If optional features are added later, we will request consent first.</p>
+        </details>
+        <details>
+          <summary>Legal notice</summary>
+          <p>All content © <span id="year"></span> Julian Lorenzo Depaepe. All rights reserved.</p>
+        </details>
+      </section>
+      <small>© <span id="year2"></span> Redicat · Served via Cloudflare Pages</small>
+    </div>
+  </footer>
+
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="container banner-inner">
+      <p>We use only essential cookies to make this site work. <button class="btn small" id="show-policy" style="background:transparent;border:1px solid rgba(255,255,255,.2)">Learn more</button></p>
+      <div class="banner-actions">
+        <button id="accept-cookies" class="btn small">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile nav toggle
+    const t=document.querySelector('.toggle');
+    const n=document.getElementById('nav');
+    if(t&&n){t.addEventListener('click',()=>{const e=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!e));n.classList.toggle('show');});}
+    // Year stamps
+    const y=String(new Date().getFullYear());
+    const y1=document.getElementById('year'); const y2=document.getElementById('year2');
+    if(y1) y1.textContent=y; if(y2) y2.textContent=y;
+    // Cookie banner (essential only)
+    const CONSENT_KEY='cookie_consent_v1';
+    const banner=document.getElementById('cookie-banner');
+    const acceptBtn=document.getElementById('accept-cookies');
+    const showPolicyBtn=document.getElementById('show-policy');
+    function showBanner(){banner?.classList.add('show');}
+    function hideBanner(){banner?.classList.remove('show');}
+    if(!localStorage.getItem(CONSENT_KEY)) setTimeout(showBanner, 500);
+    acceptBtn?.addEventListener('click',()=>{localStorage.setItem(CONSENT_KEY,'accepted');hideBanner();});
+    showPolicyBtn?.addEventListener('click',()=>{const details=document.querySelector('#legal details'); if(details && !details.open) details.open=true; window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});});
+  </script>
+</body>
+</html>
+```
