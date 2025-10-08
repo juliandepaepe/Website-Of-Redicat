@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redicat — Socials</title>
+  <meta name="description" content="Social profiles for Redicat: Gamer, Coder, IT professional." />
+  <meta name="theme-color" content="#0b0d10" />
+  <style>
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:.75rem;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+    .brand svg{width:34px;height:34px}
+    .nav-links{display:flex;gap:.6rem;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem}
+    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .nav-links .active{color:var(--text);background:linear-gradient(135deg, rgba(79,140,255,.2), rgba(138,92,255,.2))}
+    .hero{padding:4.5rem 0 2rem}
+    h1{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0}
+    .subtitle{color:var(--muted);margin:0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1rem;display:flex;align-items:center;gap:.9rem}
+    .card a{display:flex;align-items:center;gap:.75rem;color:var(--text);text-decoration:none;width:100%}
+    .badge{font-size:.85rem;color:var(--muted)}
+    .icon{width:28px;height:28px;flex:0 0 28px}
+    footer{border-top:1px solid rgba(255,255,255,.06)}
+    footer .container{padding:1.25rem 1rem}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="/" aria-label="Home">
+        <!-- Inline logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs>
+          <rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/>
+          <path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/>
+        </svg>
+        <span>Redicat</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/account">Account</a>
+        <a href="/socials.html" class="active" aria-current="page">Socials</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h1>Socials</h1>
+      <p class="subtitle">Redicat — Gamer · Coder · IT professional</p>
+
+      <div class="grid">
+        <!-- X / Twitter -->
+        <div class="card">
+          <a href="https://twitter.com/YOUR_USERNAME" target="_blank" rel="noopener" aria-label="Twitter profile">
+            <svg class="icon" viewBox="0 0 1200 1227" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M714 0h262L486 527l527 700H750L420 801 90 1227H0l432-573L0 0h270l294 400L714 0Zm-94 844 81 110h-89L382 696 180 432h95l250 331 95 81Z"/></svg>
+            <div>
+              <div>Twitter</div>
+              <div class="badge">@YOUR_USERNAME</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Discord -->
+        <div class="card">
+          <a href="https://discord.gg/YOUR_INVITE_OR_USER" target="_blank" rel="noopener" aria-label="Discord">
+            <svg class="icon" viewBox="0 0 245 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M104.4 104.9c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1.1-6.2-4.5-11.1-10.2-11.1Zm36.2 0c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1 0-6.2-4.5-11.1-10.2-11.1Z"/><path fill="currentColor" d="M189.5 20h-134C34.6 20 20 34.6 20 51.5v137C20 205.4 34.6 220 51.5 220h114.9l-5.4-18.6 13 12 12.3 11.4 21.7 19.2V51.5C208 34.6 193.4 20 176.5 20Zm-24.1 129s-2.3-2.8-4.2-5.3c8.3-2.4 11.5-7.6 11.5-7.6-2.6 1.7-5 2.9-7.2 3.7-3.1 1.3-6.1 2.2-9 2.7-6 1.1-11.6.8-16.4-.1-3.6-.7-6.7-1.7-9.3-2.7-1.4-.6-3-1.3-4.5-2.1-.2-.1-.4-.2-.6-.3-.1 0-.1 0-.1-.1-.6-.3-.9-.5-.9-.5s3.1 5.2 11.3 7.6c-1.9 2.5-4.3 5.4-4.3 5.4-14.2-.5-19.6-9.8-19.6-9.8 0-20.8 9.3-37.7 9.3-37.7 9.3-7 18-6.8 18-6.8l.6.7c-11.6 3.3-17 8.3-17 8.3s1.4-.7 3.8-1.7c6.9-3 12.4-3.9 14.6-4.1.4-.1.8-.1 1.2-.1 4.4-.6 9.4-.8 14.6-.2 6.9.8 14.3 2.9 21.9 7.1 0 0-5.1-4.9-16.1-8.2l.8-.9s8.8-.2 17.9 6.8c0 0 9.3 16.9 9.3 37.7 0 0-5.5 9.3-19.7 9.8Z"/></svg>
+            <div>
+              <div>Discord</div>
+              <div class="badge">Invite / @username</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Steam -->
+        <div class="card">
+          <a href="https://steamcommunity.com/id/YOUR_STEAM_ID" target="_blank" rel="noopener" aria-label="Steam">
+            <svg class="icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M177.8 73.1c-17.5 0-31.7 14.2-31.7 31.7s14.2 31.7 31.7 31.7 31.7-14.2 31.7-31.7-14.2-31.7-31.7-31.7Zm0 52.5c-11.5 0-20.8-9.3-20.8-20.8s9.3-20.8 20.8-20.8 20.8 9.3 20.8 20.8-9.3 20.8-20.8 20.8Z"/><path fill="currentColor" d="M204.4 19.2C236.7 29.6 256 55.4 256 90.1c0 51.3-41.6 92.9-92.9 92.9-9 0-17.7-1.3-26-3.8l-27.5 27.5c-16.3 16.4-42.8 16.9-60 .9l-22.6-13.5 41.5-16.6c3.7 1.2 7.7 1.8 11.8 1.8 20.5 0 37.1-16.6 37.1-37.1 0-1.1-.1-2.2-.2-3.3l51.6 21.5c12.9 3.4 26.5 3.2 39.4-1.6 26.4-9.7 45.3-35.1 45.3-65.7 0-42.1-34.1-76.2-76.2-76.2-30.6 0-57.3 18-69.8 44.1l-16.7 41.5L59 119.7l13.2-33C84.8 51 113 34.3 145.8 34.3c20.6 0 40.4 8.4 58.6 24.9Z"/></svg>
+            <div>
+              <div>Steam</div>
+              <div class="badge">/id/YOUR_STEAM_ID</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- SoundCloud -->
+        <div class="card">
+          <a href="https://soundcloud.com/YOUR_USERNAME" target="_blank" rel="noopener" aria-label="SoundCloud">
+            <svg class="icon" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M199.5 121c-3.7-23.7-24.3-41.9-48.9-41.9-8.6 0-16.8 2.2-23.9 6-2.2 1.2-2.8 2.6-2.8 5v73.4h98.8c15.6 0 28.3-12.7 28.3-28.3 0-15.3-12.1-27.8-27.2-28.2-1.4-.1-2.9-.1-4.3 0Z"/><path fill="currentColor" d="M111.6 86.2c-2.8-.7-5.7 1.3-5.7 4.2v72.9h11.4V90.4c0-2-1.3-3.8-3.1-4.2h-.1Zm-18.2 7.2c-2.7-.9-5.6 1.1-5.6 4v65.8h11.3V97.5c0-1.9-1.2-3.6-3-4.1h-.1Zm-18.3 7.2c-2.7-.9-5.6 1.1-5.6 4v58.6h11.3v-58.6c0-1.9-1.2-3.6-3-4.1h-.1Zm-18.2 7.2c-2.8-.7-5.7 1.3-5.7 4.2v51.4h11.4v-51.4c0-2-1.3-3.8-3.1-4.2h-.1Zm-18.3 7.2c-2.7-.9-5.6 1.1-5.6 4v44.2h11.3v-44.2c0-1.9-1.2-3.6-3-4.1h-.1Z"/></svg>
+            <div>
+              <div>SoundCloud</div>
+              <div class="badge">@YOUR_USERNAME</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- YouTube -->
+        <div class="card">
+          <a href="https://www.youtube.com/@YOUR_CHANNEL" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg class="icon" viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M549.7 124.1a68.4 68.4 0 0 0-48.1-48.3C458.8 64 288 64 288 64s-170.8 0-213.6 11.8a68.4 68.4 0 0 0-48.1 48.3C14.4 167.1 14.4 256 14.4 256s0 88.9 11.9 131.9a68.4 68.4 0 0 0 48.1 48.3C117.2 448 288 448 288 448s170.8 0 213.6-11.8a68.4 68.4 0 0 0 48.1-48.3c11.9-43 11.9-131.9 11.9-131.9s0-88.9-11.9-131.9ZM232 338V174l142 82-142 82Z"/></svg>
+            <div>
+              <div>YouTube</div>
+              <div class="badge">@YOUR_CHANNEL</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <small>© 2025 Julian Lorenzo Depaepe · Built with HTML5</small>
+    </div>
+  </footer>
+</body>
+</html>
