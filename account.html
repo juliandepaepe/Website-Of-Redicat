@@ -83,14 +83,6 @@
     <section class="container section">
       <ul class="grid">
         <li class="card">
-          <h2>How this works</h2>
-          <ol>
-            <li>Create account with <i>username, email, password</i>.</li>
-            <li>Check your inbox and click the verification link.</li>
-            <li>Return here and click <b>Refresh status</b>.</li>
-          </ol>
-        </li>
-        <li class="card">
           <h2>Account status</h2>
           <div id="authInfo" class="note">No user signed in.</div>
           <div class="row">
@@ -194,21 +186,31 @@
       resendBtn?.classList.toggle('hidden', v);
     }
 
-    // Embedded Firebase config (no Setup UI)
-    const firebaseConfig = {
-      apiKey: "AIzaSyDHiGFhkBqtfksdWEofIWwBrICmCe3FJcI",
-      authDomain: "redicat-a8376.firebaseapp.com",
-      projectId: "redicat-a8376",
-      storageBucket: "redicat-a8376.firebasestorage.app",
-      messagingSenderId: "316938208039",
-      appId: "1:316938208039:web:ff2c5eb07d4a62c4d007a2",
-      measurementId: "G-E5RENZZ2HS"
+    // Load config from localStorage first, fallback to embedded (kept blank-safe)
+    const EMBEDDED_CONFIG = {
+      apiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: "",
+      measurementId: ""
     };
+    const KEY = 'firebase_config_v1';
+    let cfg = EMBEDDED_CONFIG;
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) cfg = JSON.parse(raw);
+    } catch {}
 
     let auth;
     (async () => {
+      if (!cfg || !cfg.apiKey || !cfg.authDomain) {
+        setStatus('Missing Firebase config. Please load a page that still has Setup, paste your JSON once, then return here. This page will reuse it automatically.', 'err');
+        return;
+      }
       try {
-        const app = firebase.initializeApp(firebaseConfig);
+        const app = firebase.initializeApp(cfg);
         auth = firebase.auth(app);
         await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         setStatus('Connected. You can create an account or log in.', 'ok');
