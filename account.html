@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redicat — Account</title>
-  <meta name="description" content="Create account / Log in with email verification." />
+  <meta name="description" content="Create account / Log in with email verification, Google and Microsoft sign-in." />
   <meta name="theme-color" content="#0b0d10" />
   <style>
     :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff;--ok:#46d27d;--warn:#ffc54d;--err:#ff6b6b}
@@ -24,30 +24,18 @@
     .subtitle{color:var(--muted);margin:0 0 1rem}
     .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.7rem 1rem;border-radius:.7rem;text-decoration:none;font-weight:600;cursor:pointer}
     .btn.ghost{background:transparent;border-color:rgba(255,255,255,.15)}
+    .btn.oauth{display:flex;align-items:center;gap:.5rem;background:#1a1f27;border:1px solid rgba(255,255,255,.12)}
+    .btn.oauth svg{width:18px;height:18px}
     .section{padding:2.25rem 0}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;list-style:none;padding:0;margin:0}
     .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1rem}
     .status{padding:.75rem 1rem;border-radius:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
     .ok{border-color:rgba(70,210,125,.35);background:rgba(70,210,125,.08)}
-    .warn{border-color:rgba(255,197,77,.35);background:rgba(255,197,77,.08)}
-    .err{border-color:rgba(255,107,107,.35);background:rgba(255,107,107,.08)}
+    .warn{border-color:rgba(255,197,77,.35);background:rgba(255,255,255,.08)}
+    .err{border-color:rgba(255,107,107,.35);background:rgba(255,255,255,.08)}
     footer{border-top:1px solid rgba(255,255,255,.06);background:radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent)}
     footer .container{padding:1.5rem 1rem}
     .muted{color:var(--muted)}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:1rem}
-    .modal.show{display:flex}
-    .modal-card{width:min(560px,95vw);background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:1rem;box-shadow:0 10px 40px rgba(0,0,0,.35)}
-    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1rem .5rem 1rem}
-    .modal-body{padding:0 1rem 1rem 1rem}
-    .modal h3{margin:.25rem 0}
-    .x{background:transparent;border:0;color:var(--muted);cursor:pointer;font-size:20px}
-    .field{display:flex;flex-direction:column;margin:.6rem 0}
-    .field label{font-size:.9rem;color:var(--muted);margin:0 0 .25rem}
-    .field input{border:1px solid rgba(255,255,255,.12);background:#0f131a;color:var(--text);padding:.6rem .7rem;border-radius:.6rem;outline:none}
-    .row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
-    .right{margin-left:auto}
-    .note{font-size:.9rem;color:var(--muted)}
-    .hidden{display:none}
   </style>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -65,8 +53,6 @@
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="/" class="link active" aria-current="page">Home</a>
-        <button class="btn-link" id="openSignUp">Create account</button>
-        <button class="btn-link" id="openLogin">Log in</button>
         <span id="userBadge" class="muted"></span>
         <button id="logoutBtn" class="btn-link hidden">Log out</button>
       </nav>
@@ -75,19 +61,50 @@
 
   <main>
     <section class="hero container">
-      <h1>Redicat</h1>
-      <p class="subtitle">Create an account or log in below. Email confirmation is required.</p>
+      <h1>Julian Lorenzo Depaepe</h1>
+      <p class="subtitle">Create an account or log in — now with Google and Microsoft.</p>
       <div id="appStatus" class="status warn container">Connecting…</div>
     </section>
 
     <section class="container section">
       <ul class="grid">
         <li class="card">
-          <h2>Account status</h2>
+          <h2>Email & password</h2>
+          <div class="field"><label>Username</label><input id="su_username" type="text" autocomplete="username" placeholder="Your display name" /></div>
+          <div class="field"><label>Email</label><input id="su_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
+          <div class="field"><label>Password</label><input id="su_password" type="password" autocomplete="new-password" placeholder="••••••••" /></div>
+          <div id="su_msg" class="note"></div>
+          <div class="row">
+            <button id="doSignUp" class="btn">Create account</button>
+          </div>
+          <hr style="margin:1rem 0;border-color:rgba(255,255,255,.08)">
+          <div class="field"><label>Email</label><input id="li_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
+          <div class="field"><label>Password</label><input id="li_password" type="password" autocomplete="current-password" placeholder="••••••••" /></div>
+          <div id="li_msg" class="note"></div>
+          <div class="row">
+            <button id="doLogin" class="btn">Log in</button>
+          </div>
+        </li>
+        <li class="card">
+          <h2>Or continue with</h2>
+          <div class="row">
+            <button id="loginGoogle" class="btn oauth" title="Sign in with Google" aria-label="Sign in with Google">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12 c0-6.627,5.373-12,12-12c3.059,0,5.842,1.153,7.961,3.039l5.657-5.657C33.12,6.053,28.805,4,24,4C12.955,4,4,12.955,4,24 s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,16.108,18.961,13,24,13c3.059,0,5.842,1.153,7.961,3.039l5.657-5.657 C33.12,6.053,28.805,4,24,4C16.318,4,9.689,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c4.743,0,9.053-1.815,12.316-4.771l-5.682-4.807C28.542,35.664,26.396,36,24,36 c-5.202,0-9.619-3.317-11.281-7.946l-6.53,5.034C9.042,39.556,15.955,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.236-2.231,4.166-4.181,5.582c0.001,0,0.001,0,0,0l6.19,4.686 C36.271,40.089,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
+              Google
+            </button>
+            <button id="loginMicrosoft" class="btn oauth" title="Sign in with Microsoft" aria-label="Sign in with Microsoft">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>
+              Microsoft
+            </button>
+          </div>
+          <p id="oauth_msg" class="note"></p>
+          <hr style="margin:1rem 0;border-color:rgba(255,255,255,.08)">
+          <h3>Account status</h3>
           <div id="authInfo" class="note">No user signed in.</div>
           <div class="row">
             <button id="refreshStatus" class="btn ghost">Refresh status</button>
             <button id="resendVerification" class="btn ghost hidden">Resend verification email</button>
+            <button id="logoutInline" class="btn ghost hidden">Log out</button>
           </div>
         </li>
       </ul>
@@ -100,61 +117,14 @@
     </div>
   </footer>
 
-  <!-- Sign Up Modal -->
-  <div class="modal" id="signUpModal" role="dialog" aria-modal="true" aria-labelledby="signUpTitle">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3 id="signUpTitle">Create account</h3>
-        <button class="x" data-close="signUpModal" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="field"><label>Username</label><input id="su_username" type="text" autocomplete="username" placeholder="Your display name" /></div>
-        <div class="field"><label>Email</label><input id="su_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
-        <div class="field"><label>Password</label><input id="su_password" type="password" autocomplete="new-password" placeholder="••••••••" /></div>
-        <div id="su_msg" class="note"></div>
-        <div class="row">
-          <button id="doSignUp" class="btn">Create account</button>
-          <button class="btn ghost right" data-close="signUpModal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Login Modal -->
-  <div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3 id="loginTitle">Log in</h3>
-        <button class="x" data-close="loginModal" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="field"><label>Email</label><input id="li_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
-        <div class="field"><label>Password</label><input id="li_password" type="password" autocomplete="current-password" placeholder="••••••••" /></div>
-        <div id="li_msg" class="note"></div>
-        <div class="row">
-          <button id="doLogin" class="btn">Log in</button>
-          <button class="btn ghost right" data-close="loginModal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script>
     const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
-    const modals = { signUpModal: $('#signUpModal'), loginModal: $('#loginModal') };
-    const open = id => modals[id]?.classList.add('show');
-    const close = id => modals[id]?.classList.remove('show');
-    $$('#openSignUp,#openLogin').forEach(btn=>{
-      btn?.addEventListener('click', ()=> open(btn.id === 'openSignUp' ? 'signUpModal' : 'loginModal'));
-    });
-    $$('[data-close]').forEach(btn=>btn.addEventListener('click', ()=> close(btn.getAttribute('data-close'))));
-    Object.values(modals).forEach(m => m?.addEventListener('click', e => { if(e.target===m) m.classList.remove('show'); }));
 
     const appStatus = $('#appStatus');
     const authInfo = $('#authInfo');
     const userBadge = $('#userBadge');
     const logoutBtn = $('#logoutBtn');
+    const logoutInline = $('#logoutInline');
     const refreshBtn = $('#refreshStatus');
     const resendBtn = $('#resendVerification');
 
@@ -167,6 +137,8 @@
     const li_password = $('#li_password');
     const li_msg = $('#li_msg');
 
+    const oauth_msg = $('#oauth_msg');
+
     function setStatus(msg, cls='warn') {
       appStatus.className = 'status ' + cls + ' container';
       appStatus.innerHTML = msg;
@@ -176,49 +148,36 @@
       if (!u) {
         userBadge.textContent = '';
         logoutBtn.classList.add('hidden');
+        logoutInline.classList.add('hidden');
         setAuthInfo('No user signed in.');
         return;
       }
-      const v = u.emailVerified;
+      const v = u.emailVerified || (u.providerData && u.providerData[0] && u.providerData[0].providerId !== 'password');
       userBadge.textContent = v ? `Signed in as ${u.displayName || u.email}` : `Signed in (unverified) — ${u.email}`;
       logoutBtn.classList.remove('hidden');
-      setAuthInfo(v ? 'Email verified.' : 'Email not verified yet.');
+      logoutInline.classList.remove('hidden');
+      setAuthInfo(v ? 'Email verified or federated login.' : 'Email not verified yet.');
       resendBtn?.classList.toggle('hidden', v);
     }
 
-    // Load config from localStorage first, fallback to embedded (kept blank-safe)
-    const EMBEDDED_CONFIG = {
-      apiKey: "",
-      authDomain: "",
-      projectId: "",
-      storageBucket: "",
-      messagingSenderId: "",
-      appId: "",
-      measurementId: ""
-    };
+    // Load config from localStorage
     const KEY = 'firebase_config_v1';
-    let cfg = EMBEDDED_CONFIG;
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) cfg = JSON.parse(raw);
-    } catch {}
-
-    let auth;
-    (async () => {
-      if (!cfg || !cfg.apiKey || !cfg.authDomain) {
-        setStatus('Missing Firebase config. Please load a page that still has Setup, paste your JSON once, then return here. This page will reuse it automatically.', 'err');
-        return;
-      }
+    let cfg = null;
+    try { const raw = localStorage.getItem(KEY); if (raw) cfg = JSON.parse(raw); } catch {}
+    if (!cfg || !cfg.apiKey || !cfg.authDomain) {
+      setStatus('Missing Firebase config in this browser. Paste your JSON once on a setup-enabled page, then return here.', 'err');
+    } else {
       try {
         const app = firebase.initializeApp(cfg);
-        auth = firebase.auth(app);
-        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        setStatus('Connected. You can create an account or log in.', 'ok');
+        const auth = firebase.auth(app);
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+          setStatus('Connected. You can create an account or log in.', 'ok');
+        });
 
         auth.onAuthStateChanged((user)=> showUser(user));
 
-        // Sign up
-        $('#doSignUp')?.addEventListener('click', async () => {
+        // Email/password sign up
+        document.getElementById('doSignUp')?.addEventListener('click', async () => {
           su_msg.textContent='';
           const name = su_username.value.trim();
           const email = su_email.value.trim();
@@ -232,19 +191,43 @@
           } catch (e) { su_msg.textContent = e.message; }
         });
 
-        // Log in
-        $('#doLogin')?.addEventListener('click', async () => {
+        // Email/password login
+        document.getElementById('doLogin')?.addEventListener('click', async () => {
           li_msg.textContent='';
           try {
             await auth.signInWithEmailAndPassword(li_email.value.trim(), li_password.value);
-            close('loginModal');
           } catch (e) { li_msg.textContent = e.message; }
         });
 
+        // Google & Microsoft providers
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+        const msProvider = new firebase.auth.OAuthProvider('microsoft.com');
+        msProvider.setCustomParameters({ prompt: 'select_account' });
+
+        async function oauthSignIn(provider) {
+          oauth_msg.textContent = '';
+          try {
+            await auth.signInWithPopup(provider);
+          } catch (e) {
+            if (e && e.code === 'auth/account-exists-with-different-credential') {
+              oauth_msg.textContent = 'This email exists with a different sign-in method. Try the other provider or your password.';
+            } else if (e && e.message) {
+              oauth_msg.textContent = e.message;
+            } else {
+              oauth_msg.textContent = 'Sign-in failed.';
+            }
+          }
+        }
+
+        document.getElementById('loginGoogle')?.addEventListener('click', ()=> oauthSignIn(googleProvider));
+        document.getElementById('loginMicrosoft')?.addEventListener('click', ()=> oauthSignIn(msProvider));
+
         // Log out
-        logoutBtn?.addEventListener('click', async () => {
-          try { await auth.signOut(); } catch {}
-        });
+        function doLogout(){ auth.signOut().catch(()=>{}); }
+        logoutBtn?.addEventListener('click', doLogout);
+        logoutInline?.addEventListener('click', doLogout);
 
         // Resend verification
         resendBtn?.addEventListener('click', async () => {
@@ -267,7 +250,7 @@
       } catch (e) {
         setStatus('Failed to initialize Firebase: ' + e.message, 'err');
       }
-    })();
+    }
   </script>
 </body>
 </html>
