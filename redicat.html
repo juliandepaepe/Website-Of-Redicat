@@ -13,7 +13,6 @@
     .card{max-width:720px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:1rem;padding:1.25rem}
     .muted{color:var(--muted)}
     .btn{display:inline-block;margin-top:.75rem;padding:.6rem .9rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--text);text-decoration:none}
-    code{background:#0f131a;border:1px solid rgba(255,255,255,.08);padding:.1rem .3rem;border-radius:.35rem}
   </style>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -25,54 +24,57 @@
   </main>
 
 <script>
-  // ===== CONFIG =====
-  const TARGET_URL = "https://82.143.91.43:8006"; // where to send Redicat
-  const ALLOWED_DISPLAYNAMES = ["Redicat","JLD","Julian"]; // edit if needed
-  const ALLOWED_EMAILS = ["depaepejulian@gmail.com"]; // add more if you want
-  // Optionally, add Firebase UID(s) if you know them (preferred):
-  const ALLOWED_UIDS = []; // e.g., ["aBc123XYZ..."]
+  // ===== ACCESS RULES =====
+  const TARGET_URL = "https://82.143.91.43:8006";
+  const ALLOWED_UIDS = []; // Fill once you know your UID (recommended)
+  const ALLOWED_EMAILS = ["depaepejulian@gmail.com"];
+  const ALLOWED_DISPLAYNAMES = ["Redicat","JLD","Julian"];
 
   const $ = (s, r=document)=>r.querySelector(s);
   const panel = $('#panel');
-  function render(status, msg, extraHtml="") {
-    panel.innerHTML = `<h1>${status}</h1><p class="muted">${msg}</p>${extraHtml}`;
-  }
+  const show = (t,m,extra="") => panel.innerHTML = `<h1>${t}</h1><p class="muted">${m}</p>${extra}`;
 
-  // Read Firebase config from localStorage (same key you used on /account)
+  // ===== CONFIG SOURCES =====
   const KEY = 'firebase_config_v1';
   let cfg = null;
   try { const raw = localStorage.getItem(KEY); if (raw) cfg = JSON.parse(raw); } catch {}
-  if (!cfg || !cfg.apiKey || !cfg.authDomain) {
-    render("Not configured", "This browser has no Firebase config stored. Sign in on /account once, then come back.");
-  } else {
-    try {
-      const app = firebase.initializeApp(cfg);
-      const auth = firebase.auth(app);
-      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+  const EMBEDDED = {
+    apiKey: "AIzaSyDHiGFhkBqtfksdWEofIWwBrICmCe3FJcI",
+    authDomain: "redicat-a8376.firebaseapp.com",
+    projectId: "redicat-a8376",
+    storageBucket: "redicat-a8376.firebasestorage.app",
+    messagingSenderId: "316938208039",
+    appId: "1:316938208039:web:ff2c5eb07d4a62c4d007a2",
+    measurementId: "G-E5RENZZ2HS"
+  };
+  if (!cfg) cfg = EMBEDDED;
 
-      auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-          render("Sign-in required", "You must be signed in as Redicat to access this page.",
-            `<a class="btn" href="/account">Go to login</a>`);
-          return;
-        }
-        // Reload to ensure latest profile
-        try { await user.reload(); } catch {}
+  try {
+    const app = firebase.initializeApp(cfg);
+    const auth = firebase.auth(app);
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
 
-        const okByUid = user && ALLOWED_UIDS.includes(user.uid);
-        const okByEmail = user && ALLOWED_EMAILS.map(s=>s.toLowerCase()).includes((user.email||"").toLowerCase());
-        const okByName = user && ALLOWED_DISPLAYNAMES.includes(user.displayName || "");
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        show("Sign-in required", "You must be signed in as Redicat to access this page.",
+             `<a class='btn' href='/account'>Go to login</a>`);
+        return;
+      }
+      try { await user.reload(); } catch {}
 
-        if (okByUid || okByEmail || okByName) {
-          render("Access granted", "Redirecting to your dashboard…");
-          setTimeout(()=> { window.location.replace(TARGET_URL); }, 600);
-        } else {
-          render("403 — Forbidden", "This page is only for Redicat.", `<a class="btn" href="/">Back to home</a>`);
-        }
-      });
-    } catch (e) {
-      render("Error", "Failed to initialize authentication: " + e.message);
-    }
+      const okByUid   = ALLOWED_UIDS.includes(user.uid);
+      const okByEmail = (user.email||"").toLowerCase && ALLOWED_EMAILS.map(s=>s.toLowerCase()).includes((user.email||"").toLowerCase());
+      const okByName  = ALLOWED_DISPLAYNAMES.includes(user.displayName || "");
+
+      if (okByUid || okByEmail || okByName) {
+        show("Access granted","Redirecting…");
+        setTimeout(()=> location.replace(TARGET_URL), 400);
+      } else {
+        show("403 — Forbidden","This page is only for Redicat.", `<a class='btn' href='/'>Back to home</a>`);
+      }
+    });
+  } catch (e) {
+    show("Error", "Failed to initialize authentication: " + e.message);
   }
 </script>
 </body>
