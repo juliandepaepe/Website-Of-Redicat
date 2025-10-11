@@ -141,7 +141,6 @@
   const $ = (s, r=document) => r.querySelector(s);
   const set = (text, cls='') => { const el=$('#status'); el.className='alert '+cls; el.textContent=text; };
 
-  // Fetch Firebase config from Cloudflare function; fallback to localStorage if needed.
   async function getFirebaseConfig(){
     try {
       const r = await fetch('/api/firebase-config', { cache: 'no-store' });
@@ -156,15 +155,14 @@
     }
   }
 
-  // Simple API connectivity check to Identity Toolkit
-  async function checkApi(cfg){
+  // Safer API health check: asks Firebase Auth for sign-in methods for a dummy email.
+  // This uses the official SDK, so it respects your key restrictions and CORS.
+  async function checkApiWithSdk(auth){
     try {
-      const url = 'https://identitytoolkit.googleapis.com/v1/projects/' + encodeURIComponent(cfg.projectId) + '/config?key=' + encodeURIComponent(cfg.apiKey);
-      const r = await fetch(url, {method:'GET'});
-      if (!r.ok) throw new Error('Auth API status '+r.status);
+      await auth.fetchSignInMethodsForEmail('healthcheck+' + Date.now() + '@example.com');
       set('Firebase OK — ready. You can create an account or log in.', 'ok');
     } catch(err){
-      set('Firebase check failed: '+err.message, 'err');
+      set('Firebase check failed: ' + (err && err.message || err), 'err');
     }
   }
 
@@ -193,7 +191,7 @@
           try { await user.sendEmailVerification(); } catch {}
           set('Account created. Check your email for verification.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: '+err.message, 'err'); }
+        } catch(err){ set('Firebase: ' + err.message, 'err'); }
       };
 
       $('#btnLogin').onclick = async () => {
@@ -204,7 +202,7 @@
           await auth.signInWithEmailAndPassword(email, pass);
           set('Signed in.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: '+err.message, 'err'); }
+        } catch(err){ set('Firebase: ' + err.message, 'err'); }
       };
 
       // Providers
@@ -215,7 +213,7 @@
           await auth.signInWithPopup(provider);
           set('Signed in with Google.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: '+err.message, 'err'); }
+        } catch(err){ set('Firebase: ' + err.message, 'err'); }
       };
 
       $('#btnMicrosoft').onclick = async () => {
@@ -226,17 +224,17 @@
           await auth.signInWithPopup(provider);
           set('Signed in with Microsoft.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: '+err.message, 'err'); }
+        } catch(err){ set('Firebase: ' + err.message, 'err'); }
       };
 
       $('#btnLogout').onclick = async () => { await auth.signOut(); updateState(); set('Logged out.', 'ok'); };
       $('#btnRefresh').onclick = async () => { try { if (auth.currentUser) await auth.currentUser.reload(); } catch{} updateState(); };
 
       // Manual API check link
-      $('#btnCheck').onclick = (e) => { e.preventDefault(); checkApi(cfg); };
+      $('#btnCheck').onclick = (e) => { e.preventDefault(); checkApiWithSdk(auth); };
 
       auth.onAuthStateChanged(() => updateState());
-      await checkApi(cfg); // initial API check
+      await checkApiWithSdk(auth); // initial API check via SDK
       updateState();
 
     } catch(e){
