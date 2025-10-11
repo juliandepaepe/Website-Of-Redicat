@@ -140,6 +140,10 @@
 (function(){
   const $ = (s, r=document) => r.querySelector(s);
   const set = (text, cls='') => { const el=$('#status'); el.className='alert '+cls; el.textContent=text; };
+  const formatErr = (err) => {
+    const msg = (err && err.message) ? String(err.message) : String(err || 'Unknown error');
+    return 'Firebase: ' + msg.replace(/^Firebase:\s*/i, '');
+  };
 
   async function getFirebaseConfig(){
     try {
@@ -155,14 +159,13 @@
     }
   }
 
-  // Safer API health check: asks Firebase Auth for sign-in methods for a dummy email.
-  // This uses the official SDK, so it respects your key restrictions and CORS.
+  // SDK-based health check
   async function checkApiWithSdk(auth){
     try {
       await auth.fetchSignInMethodsForEmail('healthcheck+' + Date.now() + '@example.com');
       set('Firebase OK — ready. You can create an account or log in.', 'ok');
     } catch(err){
-      set('Firebase check failed: ' + (err && err.message || err), 'err');
+      set(formatErr(err), 'err');
     }
   }
 
@@ -179,7 +182,7 @@
         $('#acctState').textContent = u ? ('Signed in as ' + (u.email || u.displayName || u.uid)) : 'No user signed in.';
       };
 
-      // Buttons — Email/password
+      // Email/password
       $('#btnCreate').onclick = async () => {
         set('Creating account...');
         try {
@@ -191,7 +194,7 @@
           try { await user.sendEmailVerification(); } catch {}
           set('Account created. Check your email for verification.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: ' + err.message, 'err'); }
+        } catch(err){ set(formatErr(err), 'err'); }
       };
 
       $('#btnLogin').onclick = async () => {
@@ -202,7 +205,7 @@
           await auth.signInWithEmailAndPassword(email, pass);
           set('Signed in.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: ' + err.message, 'err'); }
+        } catch(err){ set(formatErr(err), 'err'); }
       };
 
       // Providers
@@ -213,7 +216,7 @@
           await auth.signInWithPopup(provider);
           set('Signed in with Google.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: ' + err.message, 'err'); }
+        } catch(err){ set(formatErr(err), 'err'); }
       };
 
       $('#btnMicrosoft').onclick = async () => {
@@ -224,22 +227,21 @@
           await auth.signInWithPopup(provider);
           set('Signed in with Microsoft.', 'ok');
           updateState();
-        } catch(err){ set('Firebase: ' + err.message, 'err'); }
+        } catch(err){ set(formatErr(err), 'err'); }
       };
 
       $('#btnLogout').onclick = async () => { await auth.signOut(); updateState(); set('Logged out.', 'ok'); };
       $('#btnRefresh').onclick = async () => { try { if (auth.currentUser) await auth.currentUser.reload(); } catch{} updateState(); };
 
-      // Manual API check link
       $('#btnCheck').onclick = (e) => { e.preventDefault(); checkApiWithSdk(auth); };
 
       auth.onAuthStateChanged(() => updateState());
-      await checkApiWithSdk(auth); // initial API check via SDK
+      await checkApiWithSdk(auth);
       updateState();
 
     } catch(e){
       console.error(e);
-      set('Failed to load Firebase configuration. Ensure /api/firebase-config is deployed and env vars are set.', 'err');
+      set(formatErr(e), 'err');
     }
   }
 
