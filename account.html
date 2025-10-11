@@ -67,7 +67,7 @@
       <p class="muted">Create an account or log in — now with Google and Microsoft.</p>
 
       <div id="status" class="alert">Checking Firebase…</div>
-      <small class="muted">API check: · <a href="#" id="btnCheck">run check</a></small>
+      <small class="muted">API check: <a href="#" id="btnCheck">run check</a></small>
 
       <div class="grid">
         <!-- Email + Password -->
@@ -159,7 +159,6 @@
     }
   }
 
-  // SDK-based health check
   async function checkApiWithSdk(auth){
     try {
       await auth.fetchSignInMethodsForEmail('healthcheck+' + Date.now() + '@example.com');
@@ -172,7 +171,6 @@
   async function init(){
     try {
       const cfg = await getFirebaseConfig();
-      $('#apiLink').href = '/api/firebase-config';
 
       const app = firebase.apps?.length ? firebase.app() : firebase.initializeApp(cfg);
       const auth = firebase.auth(app);
@@ -233,6 +231,7 @@
       $('#btnLogout').onclick = async () => { await auth.signOut(); updateState(); set('Logged out.', 'ok'); };
       $('#btnRefresh').onclick = async () => { try { if (auth.currentUser) await auth.currentUser.reload(); } catch{} updateState(); };
 
+      // Manual API check link
       $('#btnCheck').onclick = (e) => { e.preventDefault(); checkApiWithSdk(auth); };
 
       auth.onAuthStateChanged(() => updateState());
