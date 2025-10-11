@@ -28,11 +28,15 @@
     input{width:100%;padding:.6rem .7rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.15);background:#0f1217;color:var(--text)}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;padding:.7rem 1rem;border-radius:.8rem;border:0;background:linear-gradient(90deg,var(--brand1),var(--brand2));color:white;font-weight:600;cursor:pointer}
     .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text)}
+    .btn.sm{padding:.5rem .75rem;border-radius:.6rem;font-weight:600}
     .btn svg{width:18px;height:18px;display:block}
     .row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.75rem}
     .alert{padding:.75rem 1rem;border-radius:.8rem;border:1px solid rgba(255,255,255,.12);background:#151922;margin:.75rem 0}
     .ok{border-color:rgba(70,200,140,.35)}
     .err{border-color:rgba(240,90,90,.45)}
+    ul.clean{list-style:none;padding-left:0;margin:.5rem 0 0 0}
+    ul.clean li{padding:.2rem 0;color:var(--muted)}
+    .hide{display:none !important}
     footer{border-top:1px solid rgba(255,255,255,.08);}
     footer .container{padding:1.25rem 1rem}
     small a{color:var(--muted)}
@@ -95,7 +99,7 @@
           <h2>Or continue with</h2>
           <div class="row">
             <button class="btn secondary" id="btnGoogle" aria-label="Sign in with Google">
-              <!-- Google logo (kept) -->
+              <!-- Google logo -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" aria-hidden="true" focusable="false">
                 <path fill="#EA4335" d="M533.5 278.4c0-18.6-1.7-37.2-5.3-55.2H272v104.5h147.2c-6.1 33.2-24.9 61.4-53 80.1v66.4h85.7c50.1-46.2 81.6-114.4 81.6-195.8z"/>
                 <path fill="#34A853" d="M272 544.3c71.8 0 132.2-23.7 176.2-64.1l-85.7-66.4c-23.8 16-54.4 25.4-90.5 25.4-69.5 0-128.3-46.9-149.4-109.8H34.8v68.9c43.5 86.5 132.5 146 237.2 146z"/>
@@ -107,7 +111,7 @@
           </div>
           <div class="row">
             <button class="btn secondary" id="btnMicrosoft" aria-label="Sign in with Microsoft">
-              <!-- Microsoft logo (kept) -->
+              <!-- Microsoft logo -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false">
                 <rect width="10" height="10" x="1" y="1" fill="#F25022"/>
                 <rect width="10" height="10" x="12" y="1" fill="#7FBA00"/>
@@ -122,7 +126,12 @@
         <!-- Account status -->
         <div class="card" id="acct">
           <h2>Account status</h2>
-          <p class="muted" id="acctState">No user signed in.</p>
+          <p id="acctState" class="muted">No user signed in.</p>
+          <ul id="acctInfo" class="clean"></ul>
+          <div id="linkRow" class="row hide">
+            <button class="btn sm secondary" id="btnLinkGoogle">Link Google</button>
+            <button class="btn sm secondary" id="btnLinkMicrosoft">Link Microsoft</button>
+          </div>
           <div class="row">
             <button class="btn secondary" id="btnRefresh">Refresh status</button>
             <button class="btn secondary" id="btnLogout">Log out</button>
@@ -142,7 +151,7 @@
   const set = (text, cls='') => { const el=$('#status'); el.className='alert '+cls; el.textContent=text; };
   const formatErr = (err) => {
     const msg = (err && err.message) ? String(err.message) : String(err || 'Unknown error');
-    return 'Firebase: ' + msg.replace(/^Firebase:\s*/i, '');
+    return 'Firebase: ' + msg.replace(/^Firebase:\\s*/i, '');
   };
 
   async function getFirebaseConfig(){
@@ -171,13 +180,24 @@
   async function init(){
     try {
       const cfg = await getFirebaseConfig();
-
       const app = firebase.apps?.length ? firebase.app() : firebase.initializeApp(cfg);
       const auth = firebase.auth(app);
 
       const updateState = () => {
         const u = auth.currentUser;
-        $('#acctState').textContent = u ? ('Signed in as ' + (u.email || u.displayName || u.uid)) : 'No user signed in.';
+        if (u) {
+          $('#acctState').textContent = 'Signed in';
+          $('#acctInfo').innerHTML = `
+            <li><strong>Email:</strong> ${u.email || '(none)'}</li>
+            <li><strong>Verified:</strong> ${u.emailVerified ? '✅ Yes' : '❌ No'}</li>
+            <li><strong>Username:</strong> ${u.displayName || '(none set)'}</li>
+          `;
+          $('#linkRow').classList.remove('hide');
+        } else {
+          $('#acctState').textContent = 'No user signed in.';
+          $('#acctInfo').innerHTML = '';
+          $('#linkRow').classList.add('hide');
+        }
       };
 
       // Email/password
@@ -224,6 +244,30 @@
           provider.setCustomParameters({ prompt: 'select_account' });
           await auth.signInWithPopup(provider);
           set('Signed in with Microsoft.', 'ok');
+          updateState();
+        } catch(err){ set(formatErr(err), 'err'); }
+      };
+
+      // Link providers to merge identities
+      $('#btnLinkGoogle').onclick = async () => {
+        if (!auth.currentUser) return;
+        set('Linking Google account...');
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          await auth.currentUser.linkWithPopup(provider);
+          set('Google account linked successfully.', 'ok');
+          updateState();
+        } catch(err){ set(formatErr(err), 'err'); }
+      };
+
+      $('#btnLinkMicrosoft').onclick = async () => {
+        if (!auth.currentUser) return;
+        set('Linking Microsoft account...');
+        try {
+          const provider = new firebase.auth.OAuthProvider('microsoft.com');
+          provider.setCustomParameters({ prompt: 'select_account' });
+          await auth.currentUser.linkWithPopup(provider);
+          set('Microsoft account linked successfully.', 'ok');
           updateState();
         } catch(err){ set(formatErr(err), 'err'); }
       };
