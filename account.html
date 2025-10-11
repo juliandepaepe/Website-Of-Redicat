@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redicat — Account</title>
-  <meta name="description" content="Create an account or log in to Redicat." />
+  <meta name="description" content="Create an account or log in — with Google or Microsoft." />
   <meta name="theme-color" content="#0b0d10" />
   <style>
     :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand1:#4f8cff;--brand2:#8a5cff}
@@ -19,14 +19,14 @@
     .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem}
     .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
     .nav-links .active{color:var(--text);background:linear-gradient(135deg, rgba(79,140,255,.2), rgba(138,92,255,.2))}
-    main{padding:2.5rem 0}
+    main{padding:2.25rem 0 3rem}
     h1{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0}
     .muted{color:var(--muted)}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
     .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:1rem;padding:1.25rem}
     label{display:block;margin:.5rem 0 .25rem}
     input{width:100%;padding:.6rem .7rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.15);background:#0f1217;color:var(--text)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1rem;border-radius:.8rem;border:0;background:linear-gradient(90deg,var(--brand1),var(--brand2));color:white;font-weight:600;cursor:pointer}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;padding:.7rem 1rem;border-radius:.8rem;border:0;background:linear-gradient(90deg,var(--brand1),var(--brand2));color:white;font-weight:600;cursor:pointer}
     .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text)}
     .btn svg{width:18px;height:18px;display:block}
     .row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.75rem}
@@ -35,7 +35,9 @@
     .err{border-color:rgba(240,90,90,.45)}
     footer{border-top:1px solid rgba(255,255,255,.08);}
     footer .container{padding:1.25rem 1rem}
+    small a{color:var(--muted)}
   </style>
+  <!-- Firebase (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 </head>
@@ -43,7 +45,12 @@
   <header>
     <div class="container nav">
       <a class="brand" href="/" aria-label="Home">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/><path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/></svg>
+        <!-- Minimal inline logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs>
+          <rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/>
+          <path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/>
+        </svg>
         <span>Redicat</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -58,9 +65,12 @@
     <section class="card">
       <h1>Redicat</h1>
       <p class="muted">Create an account or log in — now with Google and Microsoft.</p>
-      <div id="status" class="alert"></div>
+
+      <div id="status" class="alert">Checking Firebase…</div>
+      <small class="muted">API check: <a id="apiLink" href="/api/firebase-config" target="_blank" rel="noopener">view config</a> · <a href="#" id="btnCheck">run check</a></small>
 
       <div class="grid">
+        <!-- Email + Password -->
         <div class="card">
           <h2>Email & password</h2>
           <label for="signupName">Username</label>
@@ -80,19 +90,42 @@
           <div class="row"><button class="btn" id="btnLogin">Log in</button></div>
         </div>
 
+        <!-- Social providers -->
         <div class="card">
           <h2>Or continue with</h2>
           <div class="row">
             <button class="btn secondary" id="btnGoogle" aria-label="Sign in with Google">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3"><path fill="#EA4335" d="M533.5 278.4c0-18.6-1.7-37.2-5.3-55.2H272v104.5h147.2c-6.1 33.2-24.9 61.4-53 80.1v66.4h85.7c50.1-46.2 81.6-114.4 81.6-195.8z"/><path fill="#34A853" d="M272 544.3c71.8 0 132.2-23.7 176.2-64.1l-85.7-66.4c-23.8 16-54.4 25.4-90.5 25.4-69.5 0-128.3-46.9-149.4-109.8H34.8v68.9c43.5 86.5 132.5 146 237.2 146z"/><path fill="#4A90E2" d="M122.6 329.5c-10.1-30.2-10.1-63.1 0-93.3V167.3H34.8c-37.2 74.4-37.2 162.4 0 236.8l87.8-74.6z"/><path fill="#FBBC05" d="M272 107.7c39 0 74 13.5 101.5 40l76.1-76.1C403.9 24.2 343.5 0 272 0 167.3 0 78.3 59.5 34.8 146l87.8 68.9C143.7 154.9 202.5 107.7 272 107.7z"/></svg>
+              <!-- Google logo (kept) -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" aria-hidden="true" focusable="false">
+                <path fill="#EA4335" d="M533.5 278.4c0-18.6-1.7-37.2-5.3-55.2H272v104.5h147.2c-6.1 33.2-24.9 61.4-53 80.1v66.4h85.7c50.1-46.2 81.6-114.4 81.6-195.8z"/>
+                <path fill="#34A853" d="M272 544.3c71.8 0 132.2-23.7 176.2-64.1l-85.7-66.4c-23.8 16-54.4 25.4-90.5 25.4-69.5 0-128.3-46.9-149.4-109.8H34.8v68.9c43.5 86.5 132.5 146 237.2 146z"/>
+                <path fill="#4A90E2" d="M122.6 329.5c-10.1-30.2-10.1-63.1 0-93.3V167.3H34.8c-37.2 74.4-37.2 162.4 0 236.8l87.8-74.6z"/>
+                <path fill="#FBBC05" d="M272 107.7c39 0 74 13.5 101.5 40l76.1-76.1C403.9 24.2 343.5 0 272 0 167.3 0 78.3 59.5 34.8 146l87.8 68.9C143.7 154.9 202.5 107.7 272 107.7z"/>
+              </svg>
               <span>Google</span>
             </button>
           </div>
           <div class="row">
             <button class="btn secondary" id="btnMicrosoft" aria-label="Sign in with Microsoft">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23"><rect width="10" height="10" x="1" y="1" fill="#F25022"/><rect width="10" height="10" x="12" y="1" fill="#7FBA00"/><rect width="10" height="10" x="1" y="12" fill="#00A4EF"/><rect width="10" height="10" x="12" y="12" fill="#FFB900"/></svg>
+              <!-- Microsoft logo (kept) -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true" focusable="false">
+                <rect width="10" height="10" x="1" y="1" fill="#F25022"/>
+                <rect width="10" height="10" x="12" y="1" fill="#7FBA00"/>
+                <rect width="10" height="10" x="1" y="12" fill="#00A4EF"/>
+                <rect width="10" height="10" x="12" y="12" fill="#FFB900"/>
+              </svg>
               <span>Microsoft</span>
             </button>
+          </div>
+        </div>
+
+        <!-- Account status -->
+        <div class="card" id="acct">
+          <h2>Account status</h2>
+          <p class="muted" id="acctState">No user signed in.</p>
+          <div class="row">
+            <button class="btn secondary" id="btnRefresh">Refresh status</button>
+            <button class="btn secondary" id="btnLogout">Log out</button>
           </div>
         </div>
       </div>
@@ -102,5 +135,118 @@
   <footer>
     <div class="container"><small>© 2025 Julian Lorenzo Depaepe · Built with HTML5</small></div>
   </footer>
+
+<script>
+(function(){
+  const $ = (s, r=document) => r.querySelector(s);
+  const set = (text, cls='') => { const el=$('#status'); el.className='alert '+cls; el.textContent=text; };
+
+  // Fetch Firebase config from Cloudflare function; fallback to localStorage if needed.
+  async function getFirebaseConfig(){
+    try {
+      const r = await fetch('/api/firebase-config', { cache: 'no-store' });
+      if (!r.ok) throw new Error('Config fetch failed: '+r.status);
+      const cfg = await r.json();
+      try { localStorage.setItem('firebase_config_v1', JSON.stringify(cfg)); } catch {}
+      return cfg;
+    } catch(e){
+      const raw = localStorage.getItem('firebase_config_v1');
+      if (raw) return JSON.parse(raw);
+      throw e;
+    }
+  }
+
+  // Simple API connectivity check to Identity Toolkit
+  async function checkApi(cfg){
+    try {
+      const url = 'https://identitytoolkit.googleapis.com/v1/projects/' + encodeURIComponent(cfg.projectId) + '/config?key=' + encodeURIComponent(cfg.apiKey);
+      const r = await fetch(url, {method:'GET'});
+      if (!r.ok) throw new Error('Auth API status '+r.status);
+      set('Firebase OK — ready. You can create an account or log in.', 'ok');
+    } catch(err){
+      set('Firebase check failed: '+err.message, 'err');
+    }
+  }
+
+  async function init(){
+    try {
+      const cfg = await getFirebaseConfig();
+      $('#apiLink').href = '/api/firebase-config';
+
+      const app = firebase.apps?.length ? firebase.app() : firebase.initializeApp(cfg);
+      const auth = firebase.auth(app);
+
+      const updateState = () => {
+        const u = auth.currentUser;
+        $('#acctState').textContent = u ? ('Signed in as ' + (u.email || u.displayName || u.uid)) : 'No user signed in.';
+      };
+
+      // Buttons — Email/password
+      $('#btnCreate').onclick = async () => {
+        set('Creating account...');
+        try {
+          const name = $('#signupName').value.trim();
+          const email = $('#signupEmail').value.trim();
+          const pass = $('#signupPass').value;
+          const { user } = await auth.createUserWithEmailAndPassword(email, pass);
+          if (name) await user.updateProfile({ displayName: name });
+          try { await user.sendEmailVerification(); } catch {}
+          set('Account created. Check your email for verification.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
+
+      $('#btnLogin').onclick = async () => {
+        set('Signing in...');
+        try {
+          const email = $('#loginEmail').value.trim();
+          const pass = $('#loginPass').value;
+          await auth.signInWithEmailAndPassword(email, pass);
+          set('Signed in.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
+
+      // Providers
+      $('#btnGoogle').onclick = async () => {
+        set('Opening Google...');
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          await auth.signInWithPopup(provider);
+          set('Signed in with Google.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
+
+      $('#btnMicrosoft').onclick = async () => {
+        set('Opening Microsoft...');
+        try {
+          const provider = new firebase.auth.OAuthProvider('microsoft.com');
+          provider.setCustomParameters({ prompt: 'select_account' });
+          await auth.signInWithPopup(provider);
+          set('Signed in with Microsoft.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
+
+      $('#btnLogout').onclick = async () => { await auth.signOut(); updateState(); set('Logged out.', 'ok'); };
+      $('#btnRefresh').onclick = async () => { try { if (auth.currentUser) await auth.currentUser.reload(); } catch{} updateState(); };
+
+      // Manual API check link
+      $('#btnCheck').onclick = (e) => { e.preventDefault(); checkApi(cfg); };
+
+      auth.onAuthStateChanged(() => updateState());
+      await checkApi(cfg); // initial API check
+      updateState();
+
+    } catch(e){
+      console.error(e);
+      set('Failed to load Firebase configuration. Ensure /api/firebase-config is deployed and env vars are set.', 'err');
+    }
+  }
+
+  init();
+})();
+</script>
 </body>
 </html>
