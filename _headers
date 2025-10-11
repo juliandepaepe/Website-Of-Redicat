@@ -21,3 +21,6 @@
 
 /redicat.html
   X-Robots-Tag: noindex, nofollow, noarchive
+
+/api/firebase-config
+  X-Robots-Tag: noindex, nofollow
