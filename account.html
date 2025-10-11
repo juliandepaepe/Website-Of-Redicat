@@ -4,45 +4,37 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redicat — Account</title>
-  <meta name="description" content="Create an account or sign in with Email, Google, or Microsoft." />
+  <meta name="description" content="Create an account or log in to Redicat." />
   <meta name="theme-color" content="#0b0d10" />
   <style>
-    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand:#4f8cff;--brand2:#8a5cff;--ok:#46d27d;--warn:#ffc54d}
+    :root{--bg:#0b0d10;--card:#12151a;--text:#e6e9ef;--muted:#a3adbb;--brand1:#4f8cff;--brand2:#8a5cff}
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
-    .container{max-width:1000px;margin:0 auto;padding:0 1rem}
-    header{position:sticky;top:0;z-index:20;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#0b0d10,#0e1014);color:var(--text)}
+    .container{max-width:980px;margin:0 auto;padding:0 1rem}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(180%) blur(10px);background:rgba(11,13,16,.7);border-bottom:1px solid rgba(255,255,255,.06)}
     .nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:.75rem;flex-wrap:wrap}
     .brand{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
     .brand svg{width:34px;height:34px}
     .nav-links{display:flex;gap:.6rem;align-items:center}
-    .nav-links a,.btn-link{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem;border:1px solid transparent;background:transparent;cursor:pointer}
-    .nav-links a:hover,.btn-link:hover{color:var(--text);background:rgba(255,255,255,.06)}
+    .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:.6rem}
+    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06)}
     .nav-links .active{color:var(--text);background:linear-gradient(135deg, rgba(79,140,255,.2), rgba(138,92,255,.2))}
-    .hero{padding:4.5rem 0 2rem}
+    main{padding:2.5rem 0}
     h1{font-size:clamp(2rem,4vw,3rem);margin:.2rem 0}
-    .subtitle{color:var(--muted);margin:0 0 1rem}
-    .status{padding:.75rem 1rem;border-radius:.75rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
-    .ok{border-color:rgba(70,210,125,.35);background:rgba(70,210,125,.08)}
-    .warn{border-color:rgba(255,197,77,.35);background:rgba(255,255,255,.08)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin:2rem 0}
-    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:1rem;padding:1rem}
-    .field{display:flex;flex-direction:column;margin:.6rem 0}
-    .field label{font-size:.9rem;color:var(--muted);margin:0 0 .25rem}
-    .field input{border:1px solid rgba(255,255,255,.12);background:#0f131a;color:var(--text);padding:.6rem .7rem;border-radius:.6rem;outline:none}
-    .btn{display:inline-block;border:1px solid transparent;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:.7rem 1rem;border-radius:.7rem;text-decoration:none;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;border-color:rgba(255,255,255,.15)}
-    .btn.oauth{display:flex;align-items:center;gap:.5rem;background:#1a1f27;border:1px solid rgba(255,255,255,.12);color:var(--text);width:100%;justify-content:center}
-    .btn.oauth svg{width:18px;height:18px}
-    .row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
-    .note{font-size:.9rem;color:var(--muted)}
-    .hidden{display:none}
-    footer{border-top:1px solid rgba(255,255,255,.06)}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:1rem;padding:1.25rem}
+    label{display:block;margin:.5rem 0 .25rem}
+    input{width:100%;padding:.6rem .7rem;border-radius:.6rem;border:1px solid rgba(255,255,255,.15);background:#0f1217;color:var(--text)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1rem;border-radius:.8rem;border:0;background:linear-gradient(90deg,var(--brand1),var(--brand2));color:white;font-weight:600;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--text)}
+    .row{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.75rem}
+    .alert{padding:.75rem 1rem;border-radius:.8rem;border:1px solid rgba(255,255,255,.12);background:#151922;margin:.75rem 0}
+    .ok{border-color:rgba(70,200,140,.35)}
+    .err{border-color:rgba(240,90,90,.45)}
+    footer{border-top:1px solid rgba(255,255,255,.08);}
     footer .container{padding:1.25rem 1rem}
   </style>
-
-  <!-- Firebase compat SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 </head>
@@ -50,256 +42,145 @@
   <header>
     <div class="container nav">
       <a class="brand" href="/" aria-label="Home">
-        <!-- minimal inline logo -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo">
-          <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs>
-          <rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/>
-          <path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Logo"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#4f8cff"/><stop offset="100%" stop-color="#8a5cff"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="#0f131a"/><circle cx="32" cy="32" r="24" fill="url(#g)" opacity=".25"/><path d="M18 40 L28 20 L36 20 L28 44 L18 44 Z M34 44 L46 44 L46 38 L40 38 L43 30 L37 30 L34 44 Z" fill="#e6e9ef"/></svg>
         <span>Redicat</span>
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="/" class="active" aria-current="page">Home</a>
-        <a href="/account">Account</a>
+        <a href="/">Home</a>
+        <a href="/account" class="active" aria-current="page">Account</a>
         <a href="/socials.html">Socials</a>
-        <span id="userBadge" class="note"></span>
-        <button id="logoutBtn" class="btn-link hidden">Log out</button>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero container">
+  <main class="container">
+    <section class="card">
       <h1>Redicat</h1>
-      <p class="subtitle">Create an account or log in — Google &amp; Microsoft supported (mobile-friendly).</p>
-      <div id="appStatus" class="status warn">Connecting…</div>
-    </section>
+      <p class="muted">Create an account or log in — now with Google and Microsoft.</p>
+      <div id="status" class="alert"></div>
 
-    <section class="container">
       <div class="grid">
         <div class="card">
-          <h2>Email &amp; password</h2>
-          <div class="field"><label>Username</label><input id="su_username" type="text" autocomplete="username" placeholder="Your display name" /></div>
-          <div class="field"><label>Email</label><input id="su_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
-          <div class="field"><label>Password</label><input id="su_password" type="password" autocomplete="new-password" placeholder="••••••••" /></div>
-          <div id="su_msg" class="note"></div>
-          <div class="row"><button id="doSignUp" class="btn">Create account</button></div>
+          <h2>Email & password</h2>
+          <label for="signupName">Username</label>
+          <input id="signupName" placeholder="Your display name" />
+          <label for="signupEmail">Email</label>
+          <input id="signupEmail" placeholder="you@example.com" type="email" />
+          <label for="signupPass">Password</label>
+          <input id="signupPass" type="password" />
+          <div class="row"><button class="btn" id="btnCreate">Create account</button></div>
 
-          <hr style="margin:1rem 0;border-color:rgba(255,255,255,.08)">
-          <div class="field"><label>Email</label><input id="li_email" type="email" autocomplete="email" placeholder="you@example.com" /></div>
-          <div class="field"><label>Password</label><input id="li_password" type="password" autocomplete="current-password" placeholder="••••••••" /></div>
-          <div id="li_msg" class="note"></div>
-          <div class="row"><button id="doLogin" class="btn">Log in</button></div>
+          <hr style="margin:1rem 0;border-color:rgba(255,255,255,.08)" />
+
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" placeholder="you@example.com" type="email" />
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" />
+          <div class="row"><button class="btn" id="btnLogin">Log in</button></div>
         </div>
 
         <div class="card">
           <h2>Or continue with</h2>
-          <div class="row">
-            <button id="loginGoogle" class="btn oauth" title="Sign in with Google" aria-label="Sign in with Google">
-              <!-- Google icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12 c0-6.627,5.373-12,12-12c3.059,0,5.842,1.153,7.961,3.039l5.657-5.657C33.12,6.053,28.805,4,24,4C12.955,4,4,12.955,4,24 s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,16.108,18.961,13,24,13c3.059,0,5.842,1.153,7.961,3.039l5.657-5.657 C33.12,6.053,28.805,4,24,4C16.318,4,9.689,8.337,6.306,14.691z"/><path fill="#4CAF50" d="M24,44c4.743,0,9.053-1.815,12.316-4.771l-5.682-4.807C28.542,35.664,26.396,36,24,36 c-5.202,0-9.619-3.317-11.281-7.946l-6.53,5.034C9.042,39.556,15.955,44,24,44z"/><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.236-2.231,4.166-4.181,5.582c0.001,0,0.001,0,0,0l6.19,4.686 C36.271,40.089,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/></svg>
-              Google
-            </button>
-            <button id="loginMicrosoft" class="btn oauth" title="Sign in with Microsoft" aria-label="Sign in with Microsoft">
-              <!-- Microsoft logo -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23" aria-hidden="true"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M12 1h10v10H12z"/><path fill="#00A4EF" d="M1 12h10v10H1z"/><path fill="#FFB900" d="M12 12h10v10H12z"/></svg>
-              Microsoft
-            </button>
-          </div>
-          <p id="oauth_msg" class="note"></p>
-
-          <hr style="margin:1rem 0;border-color:rgba(255,255,255,.08)">
-          <h3>Account status</h3>
-          <div id="authInfo" class="note">No user signed in.</div>
-          <div class="row">
-            <button id="refreshStatus" class="btn ghost">Refresh status</button>
-            <button id="resendVerification" class="btn ghost hidden">Resend verification email</button>
-            <button id="logoutInline" class="btn ghost hidden">Log out</button>
-          </div>
+          <div class="row"><button class="btn secondary" id="btnGoogle">Google</button></div>
+          <div class="row"><button class="btn secondary" id="btnMicrosoft">Microsoft</button></div>
         </div>
+
+        <div class="card" id="acct"><h2>Account status</h2><p class="muted" id="acctState">No user signed in.</p><div class="row"><button class="btn secondary" id="btnRefresh">Refresh status</button><button class="btn secondary" id="btnLogout">Log out</button></div></div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <small>© 2025 Julian Lorenzo Depaepe · Built with HTML5</small>
-    </div>
+    <div class="container"><small>© 2025 Julian Lorenzo Depaepe · Built with HTML5</small></div>
   </footer>
 
-  <script>
-    // --- Helpers ---
-    const $ = (s, r=document)=>r.querySelector(s);
-    const appStatus = $('#appStatus');
-    const userBadge = $('#userBadge');
-    const authInfo = $('#authInfo');
-    const logoutBtn = $('#logoutBtn');
-    const logoutInline = $('#logoutInline');
-    const refreshBtn = $('#refreshStatus');
-    const resendBtn = $('#resendVerification');
-    const su_username = $('#su_username');
-    const su_email = $('#su_email');
-    const su_password = $('#su_password');
-    const su_msg = $('#su_msg');
-    const li_email = $('#li_email');
-    const li_password = $('#li_password');
-    const li_msg = $('#li_msg');
-    const oauth_msg = $('#oauth_msg');
+<script>
+(function(){
+  const $ = (s, r=document) => r.querySelector(s);
+  const set = (text, cls='') => { const el=$('#status'); el.className='alert '+cls; el.textContent=text; };
 
-    function setStatus(msg, cls='warn'){
-      appStatus.className = 'status ' + cls;
-      appStatus.textContent = msg;
+  async function getFirebaseConfig(){
+    try {
+      const r = await fetch('/api/firebase-config', { cache: 'no-store' });
+      if (!r.ok) throw new Error('Config fetch failed: '+r.status);
+      return await r.json();
+    } catch(e){
+      try { const raw = localStorage.getItem('firebase_config_v1'); if (raw) return JSON.parse(raw); } catch(_){ }
+      throw e;
     }
-    function showUser(u){
-      if(!u){
-        userBadge.textContent = '';
-        logoutBtn.classList.add('hidden');
-        logoutInline.classList.add('hidden');
-        authInfo.textContent = 'No user signed in.';
-        resendBtn.classList.add('hidden');
-        return;
-      }
-      const verified = u.emailVerified || (u.providerData[0] && u.providerData[0].providerId !== 'password');
-      userBadge.textContent = verified ? `Signed in as ${u.displayName || u.email}` : `Signed in (unverified) — ${u.email}`;
-      logoutBtn.classList.remove('hidden');
-      logoutInline.classList.remove('hidden');
-      authInfo.textContent = verified ? 'Email verified or federated login.' : 'Email not verified yet.';
-      resendBtn.classList.toggle('hidden', verified);
-    }
+  }
 
-    // --- Mobile detection (Android/iOS or no popup support) ---
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const popupUnsupported = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || !window.open;
+  async function init(){
+    try {
+      const cfg = await getFirebaseConfig();
+      const app = firebase.apps?.length ? firebase.app() : firebase.initializeApp(cfg);
+      const auth = firebase.auth(app);
 
-    // --- Config: use localStorage if present, else embedded (safe to expose) ---
-    const cfg = (() => {
-      try{
-        const v = localStorage.getItem('firebase_config_v1');
-        if (v) return JSON.parse(v);
-      }catch{}
-      return {
-        apiKey: "AIzaSyDHiGFhkBqtfksdWEofIWwBrICmCe3FJcI",
-        authDomain: "redicat-a8376.firebaseapp.com",
-        projectId: "redicat-a8376",
-        storageBucket: "redicat-a8376.firebasestorage.app",
-        messagingSenderId: "316938208039",
-        appId: "1:316938208039:web:ff2c5eb07d4a62c4d007a2",
-        measurementId: "G-E5RENZZ2HS"
+      const updateState = () => {
+        const u = auth.currentUser;
+        $('#acctState').textContent = u ? `Signed in as ${u.email || u.displayName || u.uid}` : 'No user signed in.';
       };
-    })();
 
-    // --- Firebase init ---
-    let auth;
-    try{
-      const app = firebase.initializeApp(cfg);
-      auth = firebase.auth(app);
-      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
-      setStatus('Connected. You can create an account or log in.', 'ok');
-    }catch(e){
-      setStatus('Failed to initialize Firebase: ' + e.message, 'warn');
-    }
+      $('#btnCreate').onclick = async () => {
+        set('Creating account...');
+        try {
+          const name = $('#signupName').value.trim();
+          const email = $('#signupEmail').value.trim();
+          const pass = $('#signupPass').value;
+          const { user } = await auth.createUserWithEmailAndPassword(email, pass);
+          if (name) await user.updateProfile({ displayName: name });
+          try { await user.sendEmailVerification(); } catch {}
+          set('Account created. Check your email for verification.', 'ok');
+          updateState();
+        } catch(err){ set('Error: '+err.message, 'err'); }
+      };
 
-    // --- Handle redirect result (needed for mobile flows) ---
-    (async () => {
-      try {
-        const res = await auth.getRedirectResult();
-        if (res && res.user) {
-          oauth_msg.textContent = '';
-        }
-      } catch (e) {
-        // Show a friendly message but don't block future attempts
-        if (e && e.message) oauth_msg.textContent = e.message;
-      }
-    })();
+      $('#btnLogin').onclick = async () => {
+        set('Signing in...');
+        try {
+          const email = $('#loginEmail').value.trim();
+          const pass = $('#loginPass').value;
+          await auth.signInWithEmailAndPassword(email, pass);
+          set('Signed in.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
 
-    // --- Auth state listener ---
-    auth && auth.onAuthStateChanged((u)=> showUser(u));
-
-    // --- Email/password sign up ---
-    $('#doSignUp')?.addEventListener('click', async ()=>{
-      su_msg.textContent = '';
-      const name = su_username.value.trim();
-      const email = su_email.value.trim();
-      const pass = su_password.value;
-      if (!name || !email || !pass){ su_msg.textContent = 'Please fill all fields.'; return; }
-      try{
-        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-        await cred.user.updateProfile({ displayName: name });
-        await cred.user.sendEmailVerification();
-        su_msg.textContent = 'Account created. Verification email sent — check your inbox.';
-      }catch(e){ su_msg.textContent = e.message; }
-    });
-
-    // --- Email/password login ---
-    $('#doLogin')?.addEventListener('click', async ()=>{
-      li_msg.textContent = '';
-      try{
-        await auth.signInWithEmailAndPassword(li_email.value.trim(), li_password.value);
-      }catch(e){ li_msg.textContent = e.message; }
-    });
-
-    // --- OAuth helpers: try popup, fall back to redirect for Android/iOS ---
-    async function oauthSignIn(provider){
-      oauth_msg.textContent = '';
-      try{
-        if (popupUnsupported()) {
-          await auth.signInWithRedirect(provider);
-        } else {
+      $('#btnGoogle').onclick = async () => {
+        set('Opening Google...');
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
           await auth.signInWithPopup(provider);
-        }
-      }catch(e){
-        // Fallback if popup was blocked or not supported
-        if (e && (e.code === 'auth/operation-not-supported-in-this-environment' || e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user')) {
-          try { await auth.signInWithRedirect(provider); return; } catch (_) {}
-        }
-        oauth_msg.textContent = e && e.message ? e.message : 'Sign-in failed.';
-      }
+          set('Signed in with Google.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
+
+      $('#btnMicrosoft').onclick = async () => {
+        set('Opening Microsoft...');
+        try {
+          const provider = new firebase.auth.OAuthProvider('microsoft.com');
+          provider.setCustomParameters({ prompt: 'select_account' });
+          await auth.signInWithPopup(provider);
+          set('Signed in with Microsoft.', 'ok');
+          updateState();
+        } catch(err){ set('Firebase: '+err.message, 'err'); }
+      };
+
+      $('#btnLogout').onclick = async () => { await auth.signOut(); updateState(); set('Logged out.', 'ok'); };
+      $('#btnRefresh').onclick = async () => { try { if (auth.currentUser) await auth.currentUser.reload(); } catch{} updateState(); };
+
+      auth.onAuthStateChanged(() => updateState());
+      set('Ready. You can create an account or log in.', 'ok');
+      updateState();
+    } catch(e){
+      console.error(e);
+      set('Failed to load Firebase configuration. Ensure /api/firebase-config is deployed and env vars are set.', 'err');
     }
+  }
 
-    // --- Google sign-in ---
-    (function(){
-      const btn = $('#loginGoogle');
-      if(!btn) return;
-      const provider = new firebase.auth.GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
-      btn.addEventListener('click', ()=> oauthSignIn(provider));
-    })();
-
-    // --- Microsoft sign-in (button restored) ---
-    (function(){
-      const btn = $('#loginMicrosoft');
-      if(!btn) return;
-      const provider = new firebase.auth.OAuthProvider('microsoft.com');
-      provider.setCustomParameters({
-        prompt: 'select_account'
-        // Optional: restrict to personal accounts only
-        // tenant: 'consumers'
-        // Optional: single-tenant restriction
-        // tenant: '<YOUR_TENANT_ID>'
-      });
-      btn.addEventListener('click', ()=> oauthSignIn(provider));
-    })();
-
-    // --- Misc actions ---
-    const doLogout = ()=> auth.signOut().catch(()=>{});
-    logoutBtn?.addEventListener('click', doLogout);
-    logoutInline?.addEventListener('click', doLogout);
-
-    refreshBtn?.addEventListener('click', async ()=>{
-      if (auth.currentUser){
-        try{ await auth.currentUser.reload(); }catch{}
-        showUser(auth.currentUser);
-      } else {
-        authInfo.textContent = 'No user signed in.';
-      }
-    });
-
-    resendBtn?.addEventListener('click', async ()=>{
-      if (auth.currentUser){
-        try{ await auth.currentUser.sendEmailVerification(); authInfo.textContent = 'Verification email re-sent.'; }
-        catch(e){ authInfo.textContent = 'Error: ' + e.message; }
-      }
-    });
-  </script>
+  init();
+})();
+</script>
 </body>
 </html>
