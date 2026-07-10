@@ -13,21 +13,39 @@
 
 * { box-sizing: border-box }
 
+/* html paints the canvas beyond the body box, so the body gradients
+   can never tile/repeat below the footer on short pages or tall windows */
+html { background: #0e1014 }
+
 body {
   margin: 0;
+  /* sticky footer: fill the window so the footer sits at the bottom edge and
+     the page always ends at the copyright — never any space below it */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  /* red halo at the top (PFP echo) fading to dark — this natural shift also
+     separates the footer, so no divider line is needed */
   background:
-    radial-gradient(900px 480px at 50% -8%, rgba(229, 72, 77, .10), transparent),
+    linear-gradient(180deg, rgba(229, 72, 77, .12), rgba(229, 72, 77, 0) 420px),
+    radial-gradient(1000px 520px at 50% -12%, rgba(229, 72, 77, .18), transparent 70%),
     linear-gradient(180deg, #0b0d10, #0e1014);
+  background-repeat: no-repeat;
+  background-color: #0e1014;
   color: var(--text);
 }
+/* main grows to fill; footer is pushed to the bottom. width:100% keeps a
+   main.container (account page) full-width instead of collapsing its grid. */
+body > main { flex: 1 0 auto; width: 100% }
+body > header, body > footer { flex-shrink: 0 }
 
 .container { max-width: 1000px; margin: 0 auto; padding: 0 1rem }
 
 /* Header / nav (responsive, no JS) */
 header {
   position: sticky; top: 0; z-index: 10;
-  backdrop-filter: saturate(180%) blur(10px);
+  backdrop-filter: blur(10px);
   background: rgba(11, 13, 16, .7);
   border-bottom: 1px solid rgba(255, 255, 255, .06);
 }
@@ -43,6 +61,13 @@ header {
 h1 { font-size: clamp(2rem, 4vw, 3rem); margin: .2rem 0 }
 .muted { color: var(--muted) }
 
-/* Footer (base — page may add its own glow) */
-footer { border-top: 1px solid rgba(255, 255, 255, .06) }
-footer .container { padding: 1.25rem 1rem }
+/* Footer — follows the content with a small, consistent gap on every page
+   (no sticky stretch, no divider lines). Spacing alone separates it. */
+footer { margin-top: 2.5rem }
+footer .container { padding: 0 1rem 2.5rem }
+.legal h3 { margin: 0 0 .55rem; font-size: 1.05rem; color: var(--text) }
+.legal p { margin: 0; color: var(--muted); max-width: 68ch; line-height: 1.55 }
+footer small {
+  display: block; margin-top: 1rem;
+  color: var(--muted); font-size: .85rem;
+}
