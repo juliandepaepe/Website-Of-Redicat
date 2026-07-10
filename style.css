@@ -1,0 +1,46 @@
+/* Redicat — shared styles (header, nav, footer, base tokens)
+   Loaded by index.html, account.html, socials.html.
+   Page-specific component styles stay inline in each page. */
+
+:root {
+  --bg: #0b0d10;
+  --card: #12151a;
+  --text: #e6e9ef;
+  --muted: #a3adbb;
+  --brand: #4f8cff;
+  --brand2: #8a5cff;
+}
+
+* { box-sizing: border-box }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background: linear-gradient(180deg, #0b0d10, #0e1014);
+  color: var(--text);
+}
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 1rem }
+
+/* Header / nav (responsive, no JS) */
+header {
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: saturate(180%) blur(10px);
+  background: rgba(11, 13, 16, .7);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: .75rem; flex-wrap: wrap }
+.brand { display: flex; align-items: center; gap: .6rem; color: var(--text); text-decoration: none; font-weight: 700 }
+.brand svg { width: 34px; height: 34px }
+.nav-links { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap }
+.nav-links a { color: var(--muted); text-decoration: none; padding: .5rem .75rem; border-radius: .6rem }
+.nav-links a:hover { color: var(--text); background: rgba(255, 255, 255, .06) }
+.nav-links .active { color: var(--text); background: linear-gradient(135deg, rgba(79, 140, 255, .2), rgba(138, 92, 255, .2)) }
+
+/* Shared typography */
+h1 { font-size: clamp(2rem, 4vw, 3rem); margin: .2rem 0 }
+.muted { color: var(--muted) }
+
+/* Footer (base — page may add its own glow) */
+footer { border-top: 1px solid rgba(255, 255, 255, .06) }
+footer .container { padding: 1.25rem 1rem }

@@ -6,45 +6,35 @@
   <title>Redicat's Portfolio</title>
   <meta name="description" content="Professional portfolio and profile of Redicat." />
   <meta name="theme-color" content="#0b0d10" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- Social share (Open Graph / Twitter) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Redicat" />
+  <meta property="og:title" content="Redicat — IT Professional" />
+  <meta property="og:description" content="IT Professional · System and Network Manager · Server Manager · Website Builder · Gamer." />
+  <meta property="og:url" content="https://redicat.me/" />
+  <meta property="og:image" content="https://redicat.me/favicon.svg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Redicat — IT Professional" />
+  <meta name="twitter:description" content="IT Professional · System and Network Manager · Server Manager · Website Builder · Gamer." />
+  <meta name="twitter:image" content="https://redicat.me/favicon.svg" />
+
+  <link rel="stylesheet" href="/style.css" />
   <style>
-    :root { --bg:#0b0d10; --card:#12151a; --text:#e6e9ef; --muted:#a3adbb; --brand:#4f8cff; --brand2:#8a5cff }
-    * { box-sizing: border-box }
-    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-           background: linear-gradient(180deg,#0b0d10,#0e1014); color: var(--text) }
-    .container { max-width: 1000px; margin: 0 auto; padding: 0 1rem }
-
-    /* Header / Nav (simple + responsive without JS) */
-    header { position: sticky; top: 0; z-index: 10; backdrop-filter: saturate(180%) blur(10px);
-             background: rgba(11,13,16,.7); border-bottom: 1px solid rgba(255,255,255,.06) }
-    .nav { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: .75rem; flex-wrap: wrap }
-    .brand { display: inline-flex; align-items: center; gap: .6rem; color: var(--text); text-decoration: none; font-weight: 700 }
-    .brand svg { width: 34px; height: 34px }
-    .nav-links { display: inline-flex; gap: .5rem; flex-wrap: wrap }
-    .nav-links a, .nav-links button { color: var(--muted); background: transparent; border: 0; cursor: default;
-      text-decoration: none; padding: .5rem .75rem; border-radius: .6rem; font: inherit }
-    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.06) }
-    .nav-links .active { color: var(--text); background: linear-gradient(135deg, rgba(79,140,255,.2), rgba(138,92,255,.2)) }
-
-    /* Hero */
+    /* Home page-specific */
     .hero { padding: 4.5rem 0 2.25rem }
-    h1 { font-size: clamp(2rem, 4vw, 3rem); margin: .2rem 0 }
     .subtitle { color: var(--muted); margin: 0 0 1rem }
     .cta { display: flex; gap: .75rem; flex-wrap: wrap }
     .btn { display: inline-block; border: 1px solid transparent;
            background: linear-gradient(135deg, var(--brand), var(--brand2)); color: #fff;
            padding: .7rem 1rem; border-radius: .7rem; text-decoration: none; font-weight: 600 }
     .btn.ghost { background: transparent; border-color: rgba(255,255,255,.15) }
-
-    /* Sections */
     .section { padding: 2.25rem 0 }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1rem; list-style: none; padding: 0; margin: 0 }
     .card { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: 1rem; padding: 1rem }
-
-    /* Footer (short) */
-    footer { border-top: 1px solid rgba(255,255,255,.06);
-             background: radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),
+    footer { background: radial-gradient(1200px 200px at 50% -30%, rgba(79,140,255,.15), transparent),
                          radial-gradient(700px 200px at 10% -20%, rgba(138,92,255,.15), transparent) }
-    footer .container { padding: 1.5rem 1rem }
     .legal p { margin: .5rem 0 }
   </style>
 </head>
@@ -62,16 +52,16 @@
       <span>Redicat</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
-  <a href="/" class="active" aria-current="page">Home</a>
-  <a href="/account">Account</a>
-  <a href="/socials.html">Socials</a>
-</nav>
+      <a href="/" class="active" aria-current="page">Home</a>
+      <a href="/account">Account</a>
+      <a href="/socials.html">Socials</a>
+    </nav>
   </div>
 </header>
   <main>
     <section class="hero container">
       <h1>Redicat</h1>
-      <p class="subtitle">IT Professional · System and Network Manager · Server Manager · Website Builder · Gamer · </p> 
+      <p class="subtitle">IT Professional · System and Network Manager · Server Manager · Website Builder · Gamer</p>
       <div class="cta">
         <a class="btn" href="#about">About me</a>
         <a class="btn ghost" href="#contact">Contact</a>
@@ -80,11 +70,11 @@
 
     <section id="about" class="container section">
       <h2>About me</h2>
-      <p>I’m Julian Depaepe aka Redicat, I am an experperienced and expert at everything computer technology related except computer science.</p>
+      <p>I’m Julian Depaepe aka Redicat, I am experienced and expert at everything computer technology related except computer science.</p>
       <ul class="grid">
-        <li class="card">Clean Alegant Solutions</li>
+        <li class="card">Clean Elegant Solutions</li>
         <li class="card">Friendly - Kind - Supportive</li>
-        <li class="card">Accessible - Reliable - Trustworhty</li>
+        <li class="card">Accessible - Reliable - Trustworthy</li>
         <li class="card">Calm - Collective - Focused</li>
         <li class="card">Custom Customer Support</li>
       </ul>
